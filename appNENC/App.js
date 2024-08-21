@@ -1,38 +1,32 @@
 import * as React from "react";
-import { Image, StyleSheet, View, TouchableOpacity, Text } from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, View, TouchableOpacity, Text, Image } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import logoImage from "./assets/logoNenc.png"
-
+import logoImage from "./assets/logoNenc.png";
+import SecondScreen from './secondScreen.js';
+import TerceiraTela from "./terceiraTela.js";
+import QuartaTela from "./quartaTela.js";
 
 function HomeScreen({navigation}){
   return (
     <View style={styles.planoDeFundo}>
-      <TouchableOpacity onPress={() => navigation.navigate('NextScreen')}>
+      <TouchableOpacity onPress={() => navigation.navigate('SecondScreen')}>
         <Image style={styles.logoIcon} resizeMode="cover" source={logoImage} />
       </TouchableOpacity>
     </View>
   );
 };
 
-function NextScreen(){
-  return (
-    <View style={stylesNextScreen.container}>
-      <Text style={stylesNextScreen.text}>Esta é a próxima tela!</Text>
-    </View>
-  );
-};
-
-
 const Stack = createNativeStackNavigator();
-const myApp = () => {
+const MyApp = () => {
 
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="NextScreen" component={NextScreen} />
+        <Stack.Screen name="SecondScreen" component={SecondScreen} />
+        <Stack.Screen name="TerceiraTela" component={TerceiraTela} options={{ headerShown: false }} />
+        <Stack.Screen name="QuartaTela" component={QuartaTela} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -42,12 +36,7 @@ const myApp = () => {
 const styles = StyleSheet.create({
   logoIcon: {
     width: 480,
-    height: 480,
-    transform: [
-      {
-        rotate: "90deg"
-      }
-    ]
+    height: 480
   },
   planoDeFundo: {
     backgroundColor: "#fff",
@@ -57,17 +46,4 @@ const styles = StyleSheet.create({
   }
 });
 
-const stylesNextScreen = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#fff",
-  },
-  text: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-});
-
-export default myApp;
+export default MyApp;
