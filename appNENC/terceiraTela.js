@@ -1,23 +1,28 @@
 import * as React from "react";
 import { StyleSheet, View, TouchableOpacity, Text, Alert } from "react-native";
 import YoutubePlayer from "react-native-youtube-iframe";
+import { useNavigation } from '@react-navigation/native'; // Importe o hook
 
-const TerceiraTela = ({ navigation }) => {
+const TerceiraTela = () => {
 
-    const handleVideoEnded = () => {
-        // Use Alert para exibir uma mensagem de teste
-        Alert.alert('Vídeo finalizado!', 'Navegando para a próxima tela...', [
-          { text: 'OK', onPress: () => navigation.navigate('QuartaTela') } // Navega para QuartaTela após clicar em OK
-        ]);
-      };
+  const navigation = useNavigation(); // Utilize o hook para acessar a navigation
+
+  // Define um timeout para ir para a próxima tela após 25 segundos
+  React.useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      navigation.navigate('QuartaTela');
+    }, 25000); // 25000 milissegundos = 25 segundos
+
+    // Limpa o timeout quando o componente é desmontado
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   return (
     <View style={styles.container}>
       <YoutubePlayer
         height={300}
         play={true}
-        videoId={"0YJjzvDUbk0"} // Substitua pelo ID do vídeo do YouTube
-        onEnd={handleVideoEnded} // Chame handleVideoEnded quando o vídeo terminar
+        videoId={"TADdQQJJ7m0"} 
       />
     </View>
   );

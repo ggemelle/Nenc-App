@@ -6,6 +6,8 @@ import logoImage from "./assets/logoNenc.png";
 import SecondScreen from './secondScreen.js';
 import TerceiraTela from "./terceiraTela.js";
 import QuartaTela from "./quartaTela.js";
+import FiveScreen from "./fiveScreen.js";
+import SixScreen from "./sixScreen.js";
 
 function HomeScreen({navigation}){
   return (
@@ -23,10 +25,12 @@ const MyApp = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="SecondScreen" component={SecondScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="SecondScreen" component={SecondScreen} options={{ headerShown: false }} />
         <Stack.Screen name="TerceiraTela" component={TerceiraTela} options={{ headerShown: false }} />
         <Stack.Screen name="QuartaTela" component={QuartaTela} options={{ headerShown: false }} />
+        <Stack.Screen name="FiveScreen" component={FiveScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="SixScreen" component={SixScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

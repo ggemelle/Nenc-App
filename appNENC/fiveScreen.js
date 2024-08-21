@@ -3,20 +3,21 @@ import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import somenteLogo from './assets/somenteLogo.png';
 import arrowImg from './assets/Arrow.png';
 
-const SecondScreen = ({ navigation }) => {
+const FiveScreen = ({ navigation }) => {
 
     return (
         <View style={styles.planoDeFundo}>
             <Image style={styles.logo} resizeMode="cover" source={somenteLogo} />
             <Text style={styles.naPesquisaDe}>
-                Na pesquisa de hoje, você irá avaliar uma marca de preservativos.{"\n"}
-                Para isso, realizaremos duas tarefas simples em formato de jogo: uma de identificação de palavras e outra de escolha.{"\n"}
-                O objetivo é que você complete essas tarefas o mais rápido possível.{"\n\n"}
-                Antes de começar, será exibido um comercial da Olla. Assista com atenção.{"\n\n"}
-                Quando estiver pronto para continuar, clique em INICIAR.
+                Bem-vindo ao jogo da identificação de palavras!{"\n\n"}
+                Seu objetivo é responder o mais rápido possível. Aqui está o que você deve fazer:{"\n"}
+                Quando aparecer "SIM," aperte o botão SIM.{"\n"}
+                Quando aparecer "NÃO," aperte o botão NÃO.{"\n\n"}
+                Seja rápido! Erros podem acontecer, mas tente não cometer muitos. Se você pressionar a tecla errada, ouvirá um bipe.{"\n\n"}
+                Quando estiver pronto para começar, pressione INICIAR.
             </Text>
 
-            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('TerceiraTela')}>
+            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('SixScreen')}>
                 <Text style={styles.iniciar}>INICIAR</Text>
             </TouchableOpacity>
             <View style={styles.cliqueParaIniciar}>
@@ -33,14 +34,14 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     naPesquisaDe: {
-        fontSize: 15,
+        fontSize: 13.9,
         width: '100%',
-        height: 150,
+        height: 180,
         color: "#000",
         textAlign: "center",
         fontFamily: "Inter-SemiBold",
         fontWeight: "700",
-        marginBottom: 10,
+        marginBottom: 0,
     },
     botaoIniciar: {
         backgroundColor: "#37adbd",
@@ -86,4 +87,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SecondScreen;
+export default FiveScreen;
