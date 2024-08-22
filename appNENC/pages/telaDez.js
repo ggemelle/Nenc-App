@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, View, PanResponder, Animated, Alert, Dimension
 import somenteLogo from '../assets/somenteLogo.png';
 import OllaLogo from '../assets/ollaLogo.png';
 import Elipse from '../assets/Ellipse3.png';
+import { useNavigation } from '@react-navigation/native';
 
 const words = [
     "INCONVENIÊNCIA", "AMOR", "QUALIDADE", "SENSAÇÃO", "DESCONFIANÇA",
@@ -11,6 +12,7 @@ const words = [
 ];
 
 const TelaDez = () => {
+    const navigation = useNavigation();
     const [currentWord, setCurrentWord] = React.useState('');
     const wordPosition = React.useRef(new Animated.ValueXY()).current;
     const opacity = React.useRef(new Animated.Value(1)).current;
@@ -32,11 +34,9 @@ const TelaDez = () => {
     const panResponder = React.useRef(
         PanResponder.create({
             onMoveShouldSetPanResponder: (evt, gestureState) => {
-                // Ativa o PanResponder apenas se a movimentação for significativa
                 return Math.abs(gestureState.dx) > 10 || Math.abs(gestureState.dy) > 10;
             },
             onPanResponderGrant: () => {
-                // Armazena a posição inicial do toque
                 wordPosition.setOffset({
                     x: wordPosition.x._value,
                     y: wordPosition.y._value,
@@ -52,7 +52,7 @@ const TelaDez = () => {
             ),
             onPanResponderRelease: (e, gesture) => {
                 const isDroppedInArea = (xMin, xMax, yMin, yMax) => 
-                    gesture.moveX > xMin && gesture.moveX < xMax && gesture.moveY > yMin && gesture.moveY < yMax;
+                    gesture.moveX > xMin && gesture.moveX < xMax && gesture.moveY > yMin && yMax > gesture.moveY;
 
                 const leftArea = isDroppedInArea(screenWidth * 0.1, screenWidth * 0.5, screenHeight * 0.5, screenHeight * 0.7);
                 const rightArea = isDroppedInArea(screenWidth * 0.5, screenWidth * 0.9, screenHeight * 0.5, screenHeight * 0.7);
@@ -64,12 +64,11 @@ const TelaDez = () => {
                         useNativeDriver: true,
                     }).start(() => {
                         generateNewWord();
-                        opacity.setValue(1); // Reseta a opacidade
-                        setAttemptCount(prev => prev + 1); // Incrementa a contagem de tentativas
-                        wordPosition.setValue({ x: 0, y: 0 }); // Reseta a posição
+                        opacity.setValue(1); 
+                        setAttemptCount(prev => prev + 1); 
+                        wordPosition.setValue({ x: 0, y: 0 }); 
                     });
                 } else {
-                    // Se não soltar na área correta, retorna à posição original
                     Animated.spring(wordPosition, {
                         toValue: { x: 0, y: 0 },
                         useNativeDriver: true,
@@ -81,11 +80,14 @@ const TelaDez = () => {
 
     React.useEffect(() => {
         if (attemptCount >= 6) {
-            Alert.alert("Fim do Jogo", "Você completou todas as tentativas!");
-            setAttemptCount(0); // Resetar contagem de tentativas para reiniciar o jogo
-            generateNewWord(); // Reiniciar o jogo gerando uma nova palavra
+            Alert.alert("Fim do Jogo", "Você completou todas as tentativas!", [
+                {
+                    text: "OK",
+                    onPress: () => navigation.navigate('ScreenOnze'), // Navega para a próxima tela
+                },
+            ]);
         }
-    }, [attemptCount]);
+    }, [attemptCount, navigation]);
 
     return (
         <View style={styles.telaDez}>
