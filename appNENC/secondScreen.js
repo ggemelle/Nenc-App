@@ -16,7 +16,7 @@ const SecondScreen = ({ navigation }) => {
                 Quando estiver pronto para continuar, clique em INICIAR.
             </Text>
 
-            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('QuartaTela')}>
+            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('TerceiraTela')}>
                 <Text style={styles.iniciar}>INICIAR</Text>
             </TouchableOpacity>
             <View style={styles.cliqueParaIniciar}>
