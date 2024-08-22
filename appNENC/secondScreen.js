@@ -16,7 +16,7 @@ const SecondScreen = ({ navigation }) => {
                 Quando estiver pronto para continuar, clique em INICIAR.
             </Text>
 
-            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('TerceiraTela')}>
+            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('QuartaTela')}>
                 <Text style={styles.iniciar}>INICIAR</Text>
             </TouchableOpacity>
             <View style={styles.cliqueParaIniciar}>
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     logo: {
         width: 100,
         height: 100,
-        marginBottom: 5,
+        marginBottom: 10,
     },
     naPesquisaDe: {
         fontSize: 15,

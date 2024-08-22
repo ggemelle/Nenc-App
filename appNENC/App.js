@@ -8,6 +8,11 @@ import TerceiraTela from "./terceiraTela.js";
 import QuartaTela from "./quartaTela.js";
 import FiveScreen from "./fiveScreen.js";
 import SixScreen from "./sixScreen.js";
+import SevenScreen from "./sevenScreen.js";
+import TelaOito from "./telaOito.js";
+
+
+
 
 function HomeScreen({navigation}){
   return (
@@ -31,6 +36,8 @@ const MyApp = () => {
         <Stack.Screen name="QuartaTela" component={QuartaTela} options={{ headerShown: false }} />
         <Stack.Screen name="FiveScreen" component={FiveScreen} options={{ headerShown: false }} />
         <Stack.Screen name="SixScreen" component={SixScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="SevenScreen" component={SevenScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="TelaOito" component={TelaOito} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
