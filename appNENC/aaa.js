@@ -1,91 +1,148 @@
-import * as React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import * as React from "react";
+import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import somenteLogo from './assets/somenteLogo.png';
+import OllaLogo from './assets/ollaLogo.png';
+import { useNavigation } from '@react-navigation/native';
+import { Audio } from 'expo-av'; // Certifique-se de instalar o pacote expo-av
 
-const AndroidSmall = () => {
-  return (
-    <View style={styles.androidSmall1}>
-      <Image
-        style={styles.designSemNome21}
-        resizeMode="cover"
-        source={require('./Design sem nome (2) 1.png')}
-      />
-      <Text style={styles.noTypo}>SIM</Text>
-      <Text style={styles.noTypo}>NÃO</Text>
-      <Image
-        style={[styles.androidSmall1Child, styles.androidLayout]}
-        resizeMode="cover"
-        source={require('./Ellipse 3.png')}
-      />
-      <Image
-        style={[styles.androidSmall1Item, styles.androidLayout]}
-        resizeMode="cover"
-        source={require('./Ellipse 4.png')}
-      />
-      <Text style={[styles.no1, styles.no1Typo]}>NÃO</Text>
-      <Text style={[styles.sim1, styles.no1Typo]}>SIM</Text>
-    </View>
-  );
+const words = [
+    "INCONVENIÊNCIA", "AMOR", "QUALIDADE", "SENSAÇÃO", "DESCONFIANÇA",
+    "DURABILIDADE", "PROTEÇÃO", "CONSTRANGIMENTO", "PRAZER", 
+    "DESAGRADÁVEL", "DESCONFORTO", "INSEGURANÇA"
+];
+
+const TelaOito = () => {
+    const [currentWord, setCurrentWord] = React.useState('');
+    const [currentText, setCurrentText] = React.useState('');
+    const [count, setCount] = React.useState(0);
+    const navigation = useNavigation();
+
+    React.useEffect(() => {
+        if (count < 10) {
+            const word = words[Math.floor(Math.random() * words.length)];
+            setCurrentWord(word);
+            setTimeout(() => {
+                const text = Math.random() > 0.5 ? 'SIM' : 'NÃO';
+                setCurrentText(text);
+            }, 1000);
+        } else {
+            navigation.navigate('TelaNove');
+        }
+    }, [count]);
+
+    const handlePress = async (choice) => {
+        if (choice === currentText) {
+            setCount(count + 1);
+        } else {
+            const soundObject = new Audio.Sound();
+            try {
+                await soundObject.loadAsync(require('./assets/beep.mp3')); // Certifique-se de ter um arquivo beep.mp3
+                await soundObject.playAsync();
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        setCurrentWord('');
+        setCurrentText('');
+    };
+
+    return (
+        <View style={styles.container}>
+            <Image style={styles.somenteLogo} resizeMode="contain" source={somenteLogo} />
+            <Text style={styles.wordText}>{currentWord}</Text>
+            {currentText && (
+                <Text style={[styles.answerText, currentText === 'NÃO' ? styles.naoText : styles.simText]}>
+                    {currentText}
+                </Text>
+            )}
+            <Image style={styles.ollaLogo} resizeMode="contain" source={OllaLogo} />
+            <TouchableOpacity onPress={() => handlePress('NÃO')} style={[styles.elipseContainer, styles.elipseContainerLeft]}>
+                <Text style={styles.labelText}>NÃO</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handlePress('SIM')} style={[styles.elipseContainer, styles.elipseContainerRight]}>
+                <Text style={styles.labelText}>SIM</Text>
+            </TouchableOpacity>
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({
-  androidLayout: {
-    height: 135,
-    width: 135,
-    top: 196,
-    position: 'absolute',
-  },
-  no1Typo: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    display: 'flex',
-    color: '#000',
-    fontSize: 40,
-    left: 229,
-    height: 70,
-    width: 140,
-    textAlign: 'center',
-    fontFamily: 'BakbakOne-Regular',
-    textTransform: 'uppercase',
-    position: 'absolute',
-  },
-  designSemNome21: {
-    top: 20,
-    left: -345,
-    width: 50,
-    height: 50,
-    position: 'absolute',
-  },
-  noTypo: {
-    height: 70,
-    width: 140,
-    textAlign: 'center',
-    color: '#7834c4',
-    fontFamily: 'BakbakOne-Regular',
-    textTransform: 'uppercase',
-    fontSize: 50,
-    left: 126,
-    top: 390,
-    position: 'absolute',
-  },
-  androidSmall1Child: {
-    left: -577,
-  },
-  androidSmall1Item: {
-    left: -193,
-  },
-  no1: {
-    top: 579,
-  },
-  sim1: {
-    top: 195,
-  },
-  androidSmall1: {
-    backgroundColor: '#fff',
-    flex: 1,
-    width: '100%',
-    height: 640,
-    overflow: 'hidden',
-  },
+    container: {
+        backgroundColor: '#fff',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    somenteLogo: {
+        width: 100,
+        height: 100,
+        position: 'absolute',
+        top: 0,
+    },
+    ollaLogo: {
+        width: 120,
+        height: 120,
+        position: 'absolute',
+        top: '30%',
+    },
+    wordText: {
+        color: '#7834c4',
+        fontFamily: 'BakbakOne-Regular',
+        fontSize: 20,
+        position: 'absolute',
+        top: '57%',
+        textAlign: 'center',
+    },
+    answerText: {
+        color: '#7834c4',
+        fontFamily: 'BakbakOne-Regular',
+        fontSize: 50,
+        marginBottom: 20,
+        top: 80,
+        textAlign: 'center',
+    },
+    simText: {
+        color: '#7834c4',
+        fontFamily: 'BakbakOne-Regular',
+        fontSize: 50,
+        marginBottom: 20,
+        top: 80,
+        textAlign: 'center',
+    },
+    naoText: {
+        color: '#7834c4',
+        fontFamily: 'BakbakOne-Regular',
+        fontSize: 50,
+        marginBottom: 20,
+        top: 80,
+        textAlign: 'center',
+    },
+    elipseContainer: {
+        position: 'absolute',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 135,
+        height: 135,
+        borderRadius: 100,
+        borderWidth: 2,
+        borderColor: '#43c1cf',
+        backgroundColor: '#43c1cf',
+    },
+    elipseContainerLeft: {
+        top: '53%',
+        left: '13%',
+    },
+    elipseContainerRight: {
+        top: '53%',
+        left: '68%',
+    },
+    labelText: {
+        position: 'absolute',
+        color: '#000',
+        fontSize: 50,
+        textAlign: 'center',
+        fontFamily: 'BakbakOne-Regular',
+    },
 });
 
-export default AndroidSmall;
+export default TelaOito;

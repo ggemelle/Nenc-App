@@ -17,7 +17,7 @@ const FiveScreen = ({ navigation }) => {
                 Quando estiver pronto para começar, pressione INICIAR.
             </Text>
 
-            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('SixScreen')}>
+            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('SevenScreen')}>
                 <Text style={styles.iniciar}>INICIAR</Text>
             </TouchableOpacity>
             <View style={styles.cliqueParaIniciar}>
