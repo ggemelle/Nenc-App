@@ -52,27 +52,26 @@ const TelaDez = () => {
             ),
             onPanResponderRelease: (e, gesture) => {
                 const isDroppedInArea = (xMin, xMax, yMin, yMax) => 
-                    gesture.moveX > xMin && gesture.moveX < xMax && gesture.moveY > yMin && yMax > gesture.moveY;
-
+                  gesture.moveX > xMin && gesture.moveX < xMax && gesture.moveY > yMin && yMax > gesture.moveY;
+              
                 const leftArea = isDroppedInArea(screenWidth * 0.1, screenWidth * 0.5, screenHeight * 0.5, screenHeight * 0.7);
                 const rightArea = isDroppedInArea(screenWidth * 0.5, screenWidth * 0.9, screenHeight * 0.5, screenHeight * 0.7);
-
+              
                 if (leftArea || rightArea) {
-                    Animated.timing(opacity, {
-                        toValue: 0,
-                        duration: 300,
-                        useNativeDriver: true,
-                    }).start(() => {
-                        generateNewWord();
-                        opacity.setValue(1); 
-                        setAttemptCount(prev => prev + 1); 
-                        wordPosition.setValue({ x: 0, y: 0 }); 
-                    });
+                  Animated.timing(opacity, {
+                    toValue: 0,
+                    duration: 300,
+                    useNativeDriver: true,
+                  }).start(() => {
+                    generateNewWord();
+                    opacity.setValue(1); 
+                    setAttemptCount(prev => prev + 1); 
+                    wordPosition.setValue({ x: 0, y: 0 }); 
+                  });
                 } else {
-                    Animated.spring(wordPosition, {
-                        toValue: { x: 0, y: 0 },
-                        useNativeDriver: true,
-                    }).start();
+                  Alert.alert("Atenção!", "Você precisa arrastar a palavra até uma das elipses para continuar.");
+                  generateNewWord();
+                  wordPosition.setValue({ x: 0, y: 0 });
                 }
             }
         })

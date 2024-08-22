@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
 import somenteLogo from '../assets/somenteLogo.png';
 import OllaLogo from '../assets/ollaLogo.png';
 import { useNavigation } from '@react-navigation/native';
@@ -20,36 +20,48 @@ const TelaOito = () => {
 
     React.useEffect(() => {
         if (count < 10) {
-            if (showText) {
-                const word = words[Math.floor(Math.random() * words.length)];
-                setCurrentWord(word);
-                setTimeout(() => setShowText(false), 1000);
-            } else {
-                const text = Math.random() > 0.5 ? 'SIM' : 'NÃO';
-                setCurrentText(text);
-                setTimeout(() => setShowText(true), 1000);
-            }
+          if (showText) {
+            const word = words[Math.floor(Math.random() * words.length)];
+            setCurrentWord(word);
+            setTimeout(() => setShowText(false), 1000);
+          } else {
+            const text = Math.random() > 0.5 ? 'SIM' : 'NÃO';
+            setCurrentText(text);
+            setTimeout(() => setShowText(true), 1000);
+          }
         } else {
-            navigation.navigate('NonaTela');
+          navigation.navigate('NonaTela');
         }
-    }, [count, showText]);
+      }, [count, showText, currentText]); // Adicionei currentText como dependência
 
     const handlePress = async (choice) => {
-        if (!showText && choice === currentText) {
+        if (!showText && currentText !== '') {
+          if (choice === currentText) {
             setCount(count + 1);
-        } else if (!showText && choice !== currentText) {
+          } else {
             const soundObject = new Audio.Sound();
             try {
-                await soundObject.loadAsync(require('./assets/beep.mp3'));
-                await soundObject.playAsync();
+              await soundObject.loadAsync(require('../assets/beep.mp3'));
+              await soundObject.playAsync();
             } catch (error) {
-                console.log(error);
+              console.log(error);
             }
+          }
+        } else {
+          // Emitir bipe e alerta se o usuário apertar as elipses antes de aparecer o SIM e NÃO na tela
+          const soundObject = new Audio.Sound();
+          try {
+            await soundObject.loadAsync(require('../assets/beep.mp3'));
+            await soundObject.playAsync();
+          } catch (error) {
+            console.log(error);
+          }
+          Alert.alert('Erro', 'Aguarde até que o texto SIM ou NÃO apareça na tela!');
         }
         setCurrentWord('');
         setCurrentText('');
         setShowText(true);
-    };
+      };
 
     return (
         <View style={styles.container}>
