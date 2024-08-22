@@ -30,7 +30,7 @@ const TelaOito = () => {
                 setTimeout(() => setShowText(true), 1000);
             }
         } else {
-            navigation.navigate('TelaNove');
+            navigation.navigate('NonaTela');
         }
     }, [count, showText]);
 
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
         fontFamily: 'BakbakOne-Regular',
         fontSize: 50,
         marginBottom: 20,
-        top: 80,
+        top: 30,
         textAlign: 'center',
     },
     naoText: {
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
         fontFamily: 'BakbakOne-Regular',
         fontSize: 50,
         marginBottom: 20,
-        top: 80,
+        top: 30,
         textAlign: 'center',
     },
     elipseContainer: {
