@@ -1,31 +1,58 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import { useNavigation } from '@react-navigation/native'; // Assumindo que você está usando React Navigation
+import { Image, StyleSheet, View, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 import somenteLogo from '../assets/somenteLogo.png';
 import Like from '../assets/like.png';
 import Deslike from '../assets/deslike.png';
 import Send from '../assets/send.png';
 
 const ScreenOnze = () => {
-    const navigation = useNavigation(); // Hook para navegar entre as telas
+    const navigation = useNavigation(); 
+    const [message, setMessage] = React.useState(''); 
+    const [hasInteracted, setHasInteracted] = React.useState(false);
 
-    const handlePress = () => {
-        navigation.navigate('ScreenDoze'); // Substitua 'ProximaPagina' pelo nome da página de destino
+    const handleSendPress = () => {
+        navigation.navigate('ScreenDoze');
+    };
+
+    const handleScreenPress = () => {
+        if (!hasInteracted && message === '') {
+            navigation.navigate('ScreenDoze');
+        }
+    };
+
+    const handleInteraction = () => {
+        setHasInteracted(true);
     };
 
     return (
-        <TouchableOpacity style={styles.planoDeFundo} onPress={handlePress} activeOpacity={1}>
-            <Image style={styles.logo} resizeMode="cover" source={somenteLogo} />
-            <View style={styles.iconContainer}>
-                <Image style={styles.like} resizeMode="cover" source={Like} />
-                <Image style={styles.deslike} resizeMode="cover" source={Deslike} />
+        <TouchableWithoutFeedback onPress={handleScreenPress}>
+            <View style={styles.planoDeFundo}>
+                <Image style={styles.logo} resizeMode="contain" source={somenteLogo} />
+                <View style={styles.iconContainer}>
+                    <TouchableOpacity onPress={() => { alert('Like button pressed'); handleInteraction(); }} style={styles.iconButton}>
+                        <Image style={styles.like} resizeMode="contain" source={Like} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => { alert('Deslike button pressed'); handleInteraction(); }} style={styles.iconButton}>
+                        <Image style={styles.deslike} resizeMode="contain" source={Deslike} />
+                    </TouchableOpacity>
+                </View>
                 <View style={styles.textBoxContainer}>
-                    <View style={styles.caixaDeTexto} />
-                    <Image style={styles.sendIcon} resizeMode="cover" source={Send} />
-                    <Text style={styles.digiteSuaMensagem}>Digite sua mensagem aqui...</Text>
+                    <TextInput
+                        style={styles.caixaDeTexto}
+                        value={message}
+                        onChangeText={(text) => { setMessage(text); handleInteraction(); }}
+                        placeholder="Digite sua mensagem aqui..."
+                        placeholderTextColor="#454545"
+                        multiline={true}
+                        onFocus={handleInteraction} // Marca interação ao focar no TextInput
+                    />
+                    <TouchableOpacity onPress={handleSendPress} style={styles.sendButton}>
+                        <Image style={styles.sendIcon} resizeMode="contain" source={Send} />
+                    </TouchableOpacity>
                 </View>
             </View>
-        </TouchableOpacity>
+        </TouchableWithoutFeedback>
     );
 };
 
@@ -41,58 +68,61 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         marginBottom: 20,
-        top: -15,
+        top: -20
     },
     iconContainer: {
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "space-around",
         width: "100%",
         marginBottom: 20,
     },
-    like: {
-        height: 140,
+    iconButton: {
+        alignItems: "center",
+        justifyContent: "center",
         width: 140,
-        left: 150,
+        height: 140,
+    },
+    like: {
+        width: "100%",
+        height: "100%",
         top: -75,
+        left: 40,
     },
     deslike: {
-        height: 140,
-        width: 140,
-        left: 280,
+        width: "100%",
+        height: "100%",
         top: -75,
+        left: -40,
     },
     textBoxContainer: {
         width: "100%",
         position: "relative",
         alignItems: "center",
-        marginTop: "auto",
-        marginBottom: 20,
-    },
-    sendIcon: {
-        width: 40,
-        height: 40,
-        position: "absolute",
-        bottom: -30,
-        right: 385,
-    },
-    digiteSuaMensagem: {
-        fontSize: 12,
-        textTransform: "uppercase",
-        fontFamily: "Amiri-Regular",
-        color: "#454545",
-        textAlign: "left",
-        width: "90%",
-        position: "absolute",
-        top: 40,
-        left: -190,
+        marginTop: 20,
     },
     caixaDeTexto: {
         borderRadius: 15,
         backgroundColor: "rgba(217, 217, 217, 0.7)",
-        width: "75%",
+        width: "90%",
         height: 150,
-        top: 30,
-        left: -290,
+        padding: 10,
+        fontSize: 16,
+        color: "#000",
+        textAlignVertical: "top",
+        top: -140
+    },
+    sendButton: {
+        position: "absolute",
+        bottom: 140,
+        right: 40,
+        width: 40,
+        height: 40,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    sendIcon: {
+        width: "100%",
+        height: "100%",
     },
 });
 
