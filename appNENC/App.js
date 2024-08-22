@@ -15,13 +15,13 @@ import TelaDez from "./pages/telaDez.js";
 import ScreenOnze from "./pages/screenOnze";
 import ScreenDoze from "./pages/screenDoze";
 
-function HomeScreen({navigation}){
+function HomeScreen({ navigation }) {
   return (
-    <View style={styles.planoDeFundo}>
-      <TouchableOpacity onPress={() => navigation.navigate('SecondScreen')}>
+    <TouchableOpacity onPress={() => navigation.navigate('SecondScreen')}>
+      <View style={styles.planoDeFundo}>
         <Image style={styles.logoIcon} resizeMode="cover" source={logoImage} />
-      </TouchableOpacity>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 };
 
@@ -52,12 +52,12 @@ const MyApp = () => {
 const styles = StyleSheet.create({
   logoIcon: {
     width: 480,
-    height: 480
+    height: 480,
+    top: -50,
   },
   planoDeFundo: {
     backgroundColor: "#fff",
-    flex: 1,
-    alignItems:"center",
+    alignItems: "center",
     justifyContent: "center"
   }
 });
