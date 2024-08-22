@@ -2,22 +2,22 @@ import * as React from "react";
 import { StyleSheet, View, TouchableOpacity, Text, Image } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import logoImage from "./assets/logoNenc.png";
-import SecondScreen from './secondScreen.js';
-import TerceiraTela from "./terceiraTela.js";
-import QuartaTela from "./quartaTela.js";
-import FiveScreen from "./fiveScreen.js";
-import SixScreen from "./sixScreen.js";
-import SevenScreen from "./sevenScreen.js";
-import TelaOito from "./telaOito.js";
-import NonaTela from "./nonaTela.js";
-import TelaDez from "./telaDez.js";
-
+import logoImage from "../assets/logoNenc.png";
+import SecondScreen from '../secondScreen.js';
+import TerceiraTela from "../terceiraTela.js";
+import QuartaTela from "../quartaTela.js";
+import FiveScreen from "../fiveScreen.js";
+import SixScreen from "../sixScreen.js";
+import SevenScreen from "../sevenScreen.js";
+import TelaOito from "../telaOito.js";
+import NonaTela from "../nonaTela.js";
+import TelaDez from "../telaDez.js";
+import ScreenOnze from "../screenOnze.js";
 
 function HomeScreen({navigation}){
   return (
     <View style={styles.planoDeFundo}>
-      <TouchableOpacity onPress={() => navigation.navigate('SecondScreen')}>
+      <TouchableOpacity onPress={() => navigation.navigate('TelaDez')}>
         <Image style={styles.logoIcon} resizeMode="cover" source={logoImage} />
       </TouchableOpacity>
     </View>
@@ -40,6 +40,7 @@ const MyApp = () => {
         <Stack.Screen name="TelaOito" component={TelaOito} options={{ headerShown: false }} />
         <Stack.Screen name="NonaTela" component={NonaTela} options={{ headerShown: false }} />
         <Stack.Screen name="TelaDez" component={TelaDez} options={{ headerShown: false }} />
+        <Stack.Screen name="ScreenOnze" component={ScreenOnze} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,25 +1,27 @@
 import * as React from "react";
 import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
-import somenteLogo from './assets/somenteLogo.png';
-import arrowImg from './assets/Arrow.png';
+import somenteLogo from '../assets/somenteLogo.png';
+import arrowImg from '../assets/Arrow.png';
 
-const SevenScreen = ({ navigation }) => {
+const FiveScreen = ({ navigation }) => {
 
     return (
         <View style={styles.planoDeFundo}>
             <Image style={styles.logo} resizeMode="cover" source={somenteLogo} />
             <Text style={styles.naPesquisaDe}>
-            Ótimo trabalho, você está rápido!{"\n\n"}
-            Agora, vamos repetir a tarefa, mas com uma pequena mudança. Desta vez, algumas combinações de imagem e palavras aparecerão na tela antes das palavras "SIM" ou "NÃO".{"\n\n"}
-            Sua tarefa: Ignore as combinações de imagem e palavras e responda somente às palavras "SIM" ou "NÃO", como fez anteriormente.{"\n\n"}
-            Quando estiver pronto para continuar, aperte CONTINUAR.
+                Bem-vindo ao jogo da identificação de palavras!{"\n\n"}
+                Seu objetivo é responder o mais rápido possível. Aqui está o que você deve fazer:{"\n"}
+                Quando aparecer "SIM," aperte o botão SIM.{"\n"}
+                Quando aparecer "NÃO," aperte o botão NÃO.{"\n\n"}
+                Seja rápido! Erros podem acontecer, mas tente não cometer muitos. Se você pressionar a tecla errada, ouvirá um bipe.{"\n\n"}
+                Quando estiver pronto para começar, pressione INICIAR.
             </Text>
 
-            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('TelaOito')}>
-                <Text style={styles.iniciar}>CONTINUAR</Text>
+            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('SixScreen')}>
+                <Text style={styles.iniciar}>INICIAR</Text>
             </TouchableOpacity>
             <View style={styles.cliqueParaIniciar}>
-                <Text style={styles.cliqueParaIniciarText}>Clique para continuar</Text>
+                <Text style={styles.cliqueParaIniciarText}>Clique para iniciar</Text>
                 <Image style={styles.arrow} resizeMode="cover" source={arrowImg} />
             </View>
         </View>);
@@ -32,7 +34,7 @@ const styles = StyleSheet.create({
         marginBottom: 0,
     },
     naPesquisaDe: {
-        fontSize: 15,
+        fontSize: 14,
         width: '100%',
         height: 180,
         color: "#000",
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 20,
+        marginBottom: 10,
     },
     cliqueParaIniciarText: {
         fontSize: 14,
@@ -85,4 +87,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SevenScreen;
+export default FiveScreen;

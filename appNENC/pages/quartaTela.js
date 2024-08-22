@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import maoEsquerda from './assets/maoEsquerda.png';
-import maoDireita from './assets/maoDireita.png';
-import somenteLogo from './assets/somenteLogo.png';
+import maoEsquerda from '../assets/maoEsquerda.png';
+import maoDireita from '../assets/maoDireita.png';
+import somenteLogo from '../assets/somenteLogo.png';
 
 const QuartaTela = ({ navigation }) => {
 

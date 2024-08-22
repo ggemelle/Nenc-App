@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Image, StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import { useState, useEffect } from 'react';
-import somenteLogo from './assets/somenteLogo.png';
-import Elipse from './assets/Ellipse3.png';
+import somenteLogo from '../assets/somenteLogo.png';
+import Elipse from '../assets/Ellipse3.png';
 import { Audio } from 'expo-av'; // Certifique-se de instalar o pacote expo-av
 
 const SixScreen = ({ navigation }) => {

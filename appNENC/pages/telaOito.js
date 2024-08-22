@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import somenteLogo from './assets/somenteLogo.png';
-import OllaLogo from './assets/ollaLogo.png';
+import somenteLogo from '../assets/somenteLogo.png';
+import OllaLogo from '../assets/ollaLogo.png';
 import { useNavigation } from '@react-navigation/native';
 import { Audio } from 'expo-av';
 

@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Image, StyleSheet, Text, View, PanResponder, Animated, Alert, Dimensions } from "react-native";
-import somenteLogo from './assets/somenteLogo.png';
-import OllaLogo from './assets/ollaLogo.png';
-import Elipse from './assets/Ellipse3.png';
+import somenteLogo from '../assets/somenteLogo.png';
+import OllaLogo from '../assets/ollaLogo.png';
+import Elipse from '../assets/Ellipse3.png';
 
 const words = [
     "INCONVENIÊNCIA", "AMOR", "QUALIDADE", "SENSAÇÃO", "DESCONFIANÇA",
@@ -12,33 +12,31 @@ const words = [
 
 const TelaDez = () => {
     const [currentWord, setCurrentWord] = React.useState('');
-    const [wordPosition] = React.useState(new Animated.ValueXY());
-    const [opacity] = React.useState(new Animated.Value(1));
-    const [droppedInLeft, setDroppedInLeft] = React.useState(false);
-    const [droppedInRight, setDroppedInRight] = React.useState(false);
+    const wordPosition = React.useRef(new Animated.ValueXY()).current;
+    const opacity = React.useRef(new Animated.Value(1)).current;
     const [attemptCount, setAttemptCount] = React.useState(0);
-    const [isDraggingEnabled, setIsDraggingEnabled] = React.useState(true);
-
     const screenWidth = Dimensions.get('window').width;
     const screenHeight = Dimensions.get('window').height;
 
     // Gerar uma nova palavra aleatória
-    const generateNewWord = () => {
+    const generateNewWord = React.useCallback(() => {
         const word = words[Math.floor(Math.random() * words.length)];
         setCurrentWord(word);
-    };
+    }, []);
 
     React.useEffect(() => {
         generateNewWord();
-    }, []);
+    }, [generateNewWord]);
 
     // Configuração do PanResponder
     const panResponder = React.useRef(
         PanResponder.create({
             onMoveShouldSetPanResponder: (evt, gestureState) => {
-                return isDraggingEnabled && (Math.abs(gestureState.dx) > 20 || Math.abs(gestureState.dy) > 20);
+                // Ativa o PanResponder apenas se a movimentação for significativa
+                return Math.abs(gestureState.dx) > 10 || Math.abs(gestureState.dy) > 10;
             },
             onPanResponderGrant: () => {
+                // Armazena a posição inicial do toque
                 wordPosition.setOffset({
                     x: wordPosition.x._value,
                     y: wordPosition.y._value,
@@ -53,10 +51,12 @@ const TelaDez = () => {
                 { useNativeDriver: false }
             ),
             onPanResponderRelease: (e, gesture) => {
-                const leftArea = gesture.moveX < (screenWidth * 0.5) && gesture.moveX > (screenWidth * 0.1) && gesture.moveY > (screenHeight * 0.5) && gesture.moveY < (screenHeight * 0.7);
-                const rightArea = gesture.moveX > (screenWidth * 0.5) && gesture.moveX < (screenWidth * 0.9) && gesture.moveY > (screenHeight * 0.5) && gesture.moveY < (screenHeight * 0.7);
+                const isDroppedInArea = (xMin, xMax, yMin, yMax) => 
+                    gesture.moveX > xMin && gesture.moveX < xMax && gesture.moveY > yMin && gesture.moveY < yMax;
 
-                // Animação de desaparecimento se a palavra for arrastada para a área correta
+                const leftArea = isDroppedInArea(screenWidth * 0.1, screenWidth * 0.5, screenHeight * 0.5, screenHeight * 0.7);
+                const rightArea = isDroppedInArea(screenWidth * 0.5, screenWidth * 0.9, screenHeight * 0.5, screenHeight * 0.7);
+
                 if (leftArea || rightArea) {
                     Animated.timing(opacity, {
                         toValue: 0,
@@ -65,52 +65,27 @@ const TelaDez = () => {
                     }).start(() => {
                         generateNewWord();
                         opacity.setValue(1); // Reseta a opacidade
-                        setIsDraggingEnabled(false); // Bloqueia arrasto
-
-                        // Habilita o arrasto novamente após 1000ms
-                        setTimeout(() => {
-                            setIsDraggingEnabled(true);
-                        }, 1000);
+                        setAttemptCount(prev => prev + 1); // Incrementa a contagem de tentativas
+                        wordPosition.setValue({ x: 0, y: 0 }); // Reseta a posição
                     });
-
-                    if (leftArea) {
-                        setDroppedInLeft(true);
-                    } else if (rightArea) {
-                        setDroppedInRight(true);
-                    }
                 } else {
-                    // Reseta a posição da palavra se não for arrastada para as áreas corretas
-                    wordPosition.flattenOffset();
+                    // Se não soltar na área correta, retorna à posição original
                     Animated.spring(wordPosition, {
                         toValue: { x: 0, y: 0 },
                         useNativeDriver: true,
-                    }).start(() => {
-                        // Bloqueia arrasto após uma tentativa falha
-                        setIsDraggingEnabled(false);
-                        setTimeout(() => {
-                            setIsDraggingEnabled(true);
-                        }, 1000);
-                    });
+                    }).start();
                 }
             }
         })
     ).current;
 
-    // Redefinir estado após arrastar e soltar
     React.useEffect(() => {
-        if (droppedInLeft || droppedInRight) {
-            setDroppedInLeft(false);
-            setDroppedInRight(false);
-            wordPosition.setValue({ x: 0, y: 0 });
-            setAttemptCount(prevCount => prevCount + 1);
-
-            // Verificar se o limite de tentativas foi atingido
-            if (attemptCount + 1 >= 10) {
-                Alert.alert("Fim do Jogo", "Você completou todas as tentativas!");
-                // Aqui você pode redirecionar para outra tela ou reiniciar o jogo
-            }
+        if (attemptCount >= 6) {
+            Alert.alert("Fim do Jogo", "Você completou todas as tentativas!");
+            setAttemptCount(0); // Resetar contagem de tentativas para reiniciar o jogo
+            generateNewWord(); // Reiniciar o jogo gerando uma nova palavra
         }
-    }, [droppedInLeft, droppedInRight]);
+    }, [attemptCount]);
 
     return (
         <View style={styles.telaDez}>

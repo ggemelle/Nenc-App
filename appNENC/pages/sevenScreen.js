@@ -1,20 +1,21 @@
 import * as React from "react";
 import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
-import somenteLogo from './assets/somenteLogo.png';
-import arrowImg from './assets/Arrow.png';
+import somenteLogo from '../assets/somenteLogo.png';
+import arrowImg from '../assets/Arrow.png';
 
-const NonaTela = ({ navigation }) => {
+const SevenScreen = ({ navigation }) => {
 
     return (
         <View style={styles.planoDeFundo}>
             <Image style={styles.logo} resizeMode="cover" source={somenteLogo} />
             <Text style={styles.naPesquisaDe}>
-            Este teste avalia o quanto você concorda ou discorda das combinações apresentadas.{"\n\n"}
-            Você verá uma combinação de imagem e palavra na tela. Sua tarefa é arrastar as palavras rapidamente para SIM ou NÃO, conforme o que você achar mais adequado.{"\n\n"}
-            Avalie com atenção e seja rápido!
+            Ótimo trabalho, você está rápido!{"\n\n"}
+            Agora, vamos repetir a tarefa, mas com uma pequena mudança. Desta vez, algumas combinações de imagem e palavras aparecerão na tela antes das palavras "SIM" ou "NÃO".{"\n\n"}
+            Sua tarefa: Ignore as combinações de imagem e palavras e responda somente às palavras "SIM" ou "NÃO", como fez anteriormente.{"\n\n"}
+            Quando estiver pronto para continuar, aperte CONTINUAR.
             </Text>
 
-            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('TelaDez')}>
+            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('TelaOito')}>
                 <Text style={styles.iniciar}>CONTINUAR</Text>
             </TouchableOpacity>
             <View style={styles.cliqueParaIniciar}>
@@ -39,7 +40,6 @@ const styles = StyleSheet.create({
         fontFamily: "Inter-SemiBold",
         fontWeight: "700",
         marginBottom: 0,
-        top: 20
     },
     botaoIniciar: {
         backgroundColor: "#37adbd",
@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         marginBottom: 5,
-        top: -15
     },
     iniciar: {
         fontSize: 20,
@@ -63,7 +62,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 20,
-        top: -15
     },
     cliqueParaIniciarText: {
         fontSize: 14,
@@ -72,7 +70,6 @@ const styles = StyleSheet.create({
         fontFamily: "Inter-SemiBold",
         fontWeight: "600",
         marginRight: 10,
-
     },
     arrow: {
         width: 20,
@@ -88,4 +85,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default NonaTela;
+export default SevenScreen;
