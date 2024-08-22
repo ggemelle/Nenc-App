@@ -12,6 +12,8 @@ import SevenScreen from "./pages/sevenScreen.js";
 import TelaOito from "./pages/telaOito.js";
 import NonaTela from "./pages/nonaTela.js";
 import TelaDez from "./pages/telaDez.js";
+import ScreenOnze from "./pages/screenOnze";
+import ScreenDoze from "./pages/screenDoze";
 
 function HomeScreen({navigation}){
   return (
@@ -39,6 +41,8 @@ const MyApp = () => {
         <Stack.Screen name="TelaOito" component={TelaOito} options={{ headerShown: false }} />
         <Stack.Screen name="NonaTela" component={NonaTela} options={{ headerShown: false }} />
         <Stack.Screen name="TelaDez" component={TelaDez} options={{ headerShown: false }} />
+        <Stack.Screen name="ScreenOnze" component={ScreenOnze} options={{ headerShown: false }} />
+        <Stack.Screen name="ScreenDoze" component={ScreenDoze} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
