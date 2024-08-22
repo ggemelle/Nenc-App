@@ -12,7 +12,7 @@ const SixScreen = ({ navigation }) => {
 
     // Função para tocar o som de bipe
     async function playSound() {
-        const { sound } = await Audio.Sound.createAsync(require('./assets/beep.mp3'));
+        const { sound } = await Audio.Sound.createAsync(require('../assets/beep.mp3'));
         setSound(sound);
         await sound.playAsync();
     }
