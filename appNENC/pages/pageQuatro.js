@@ -3,7 +3,7 @@ import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import somenteLogo from '../assets/somenteLogo.png';
 import arrowImg from '../assets/Arrow.png';
 
-const FiveScreen = ({ navigation }) => {
+const PageQuatro = ({ navigation }) => {
 
     return (
         <View style={styles.planoDeFundo}>
@@ -17,7 +17,7 @@ const FiveScreen = ({ navigation }) => {
                 Quando estiver pronto para começar, pressione INICIAR.
             </Text>
 
-            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('SixScreen')}>
+            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('PageCinco')}>
                 <Text style={styles.iniciar}>INICIAR</Text>
             </TouchableOpacity>
             <View style={styles.cliqueParaIniciar}>
@@ -87,4 +87,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default FiveScreen;
+export default PageQuatro;

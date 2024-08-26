@@ -3,7 +3,7 @@ import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import somenteLogo from '../assets/somenteLogo.png';
 import arrowImg from '../assets/Arrow.png';
 
-const SecondScreen = ({ navigation }) => {
+const PageDois = ({ navigation }) => {
 
     return (
         <View style={styles.planoDeFundo}>
@@ -16,7 +16,7 @@ const SecondScreen = ({ navigation }) => {
                 Quando estiver pronto para continuar, clique em INICIAR.
             </Text>
 
-            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('TerceiraTela')}>
+            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('PageTres')}>
                 <Text style={styles.iniciar}>INICIAR</Text>
             </TouchableOpacity>
             <View style={styles.cliqueParaIniciar}>
@@ -86,4 +86,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SecondScreen;
+export default PageDois;
