@@ -9,23 +9,23 @@ const palavras = [
     "DESAGRADÁVEL", "DESCONFORTO", "INSEGURANÇA"
 ];
 
-const PageCinco = () => {
+const TelaTeste = () => {
     const [currentWordIndex, setCurrentWordIndex] = React.useState(0);
     const [draggedCount, setDraggedCount] = React.useState(0);
     const pan = React.useRef(new Animated.ValueXY()).current;
+    const offset = React.useRef({ x: 0, y: 0 }).current;
 
     // Função para resetar a posição da palavra
     const resetPosition = () => {
-        Animated.timing(pan, {
-            toValue: { x: 0, y: 0 },
-            duration: 0,
-            useNativeDriver: false,
-        }).start();
+        pan.setValue({ x: 0, y: 0 });
+        offset.x = 0;
+        offset.y = 0;
+        startWordAnimation();
     };
 
     // Função para avançar para a próxima palavra
     const nextWord = () => {
-        if (draggedCount < 7) {
+        if (draggedCount < 8) {
             setCurrentWordIndex(prev => (prev + 1) % palavras.length);
             setDraggedCount(prev => prev + 1);
             resetPosition();
@@ -34,9 +34,31 @@ const PageCinco = () => {
         }
     };
 
+    // Animação de descida da palavra
+    const startWordAnimation = () => {
+        Animated.timing(pan, {
+            toValue: { x: 0, y: 400 },
+            duration: 2000,
+            easing: Easing.linear,
+            useNativeDriver: false,
+        }).start(({ finished }) => {
+            if (finished) {
+                Alert.alert("Tempo esgotado", "Você não arrastou a palavra a tempo.");
+                nextWord();
+            }
+        });
+    };
+
     // PanResponder para o movimento de arrastar
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: () => true,
+        onPanResponderGrant: () => {
+            pan.setOffset({
+                x: pan.x._value,
+                y: pan.y._value,
+            });
+            pan.setValue({ x: 0, y: 0 });
+        },
         onPanResponderMove: Animated.event(
             [
                 null,
@@ -45,11 +67,13 @@ const PageCinco = () => {
             { useNativeDriver: false }
         ),
         onPanResponderRelease: (e, gesture) => {
+            pan.flattenOffset();
+
             const { moveX, moveY } = gesture;
 
             // Verifica se a palavra foi arrastada para as áreas das elipses
             if ((moveX > 50 && moveX < 200 && moveY > 200 && moveY < 400) ||
-            (moveX > 600 && moveX < 750 && moveY > 200 && moveY < 400)){
+                (moveX > 600 && moveX < 750 && moveY > 200 && moveY < 400)) {
                 nextWord();
             } else {
                 Alert.alert("Alerta", "Você deve arrastar a palavra para uma das áreas 'SIM' ou 'NÃO'.");
@@ -57,6 +81,10 @@ const PageCinco = () => {
             }
         }
     });
+
+    React.useEffect(() => {
+        startWordAnimation();
+    }, [currentWordIndex]);
 
     return (
         <View style={styles.planoDeFundo}>
@@ -74,7 +102,6 @@ const PageCinco = () => {
         </View>
     );
 };
-
 
 const styles = StyleSheet.create({
     planoDeFundo: {
@@ -135,4 +162,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default PageCinco;
+export default TelaTeste;
