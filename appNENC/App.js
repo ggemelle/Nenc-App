@@ -13,7 +13,7 @@ import PageOito from "./pages/pageOito.js";
 
 function HomeScreen({ navigation }) {
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('PageDois')}>
+    <TouchableOpacity onPress={() => navigation.navigate('PageTres')}>
       <View style={styles.planoDeFundo}>
         <Image style={styles.logoIcon} resizeMode="cover" source={logoImage} />
       </View>

@@ -1,39 +1,92 @@
 import * as React from "react";
-import { StyleSheet, View, TouchableOpacity, Text, Alert } from "react-native";
-import YoutubePlayer from "react-native-youtube-iframe";
-import { useNavigation } from '@react-navigation/native'; // Importe o hook
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
+import { Video } from 'expo-av'; // Certifique-se de ter o pacote expo-av instalado
+import Logo from "../assets/ollaLogo.png";
+import VideoSource from "../assets/comercial.mp4";
 
 const PageTres = () => {
+  const [mediaType, setMediaType] = React.useState('image');
+  const videoRef = React.useRef(null);
 
-  const navigation = useNavigation(); // Utilize o hook para acessar a navigation
-
-  // Define um timeout para ir para a próxima tela após 25 segundos
   React.useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      navigation.navigate('PageQuatro');
-    }, 25000); // 25000 milissegundos = 25 segundos
+    if (mediaType === 'video' && videoRef.current) {
+      videoRef.current.playAsync(); // Garante que o vídeo será reproduzido quando alternar para vídeo
+    }
+  }, [mediaType]);
 
-    // Limpa o timeout quando o componente é desmontado
-    return () => clearTimeout(timeoutId);
-  }, []);
+  const toggleMediaType = () => {
+    setMediaType(prevMediaType => prevMediaType === 'image' ? 'video' : 'image');
+  };
 
   return (
-    <View style={styles.container}>
-      <YoutubePlayer
-        height={300}
-        play={true}
-        videoId={"TADdQQJJ7m0"} 
-      />
+    <View style={styles.page3}>
+      <TouchableOpacity 
+        style={styles.button} 
+        onPress={toggleMediaType}
+        hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }} // Aumenta a área de toque do botão
+      >
+      </TouchableOpacity>
+      <Text style={styles.comercial}>COMERCIAL</Text>
+      {mediaType === 'image' ? (
+        <Image style={styles.logo} resizeMode="contain" source={Logo} />
+      ) : (
+        <Video
+          ref={videoRef}
+          source={VideoSource}
+          style={styles.video}
+          resizeMode="contain"
+          shouldPlay
+          isLooping
+          useNativeControls // Adiciona controles de mídia nativos
+          volume={1.0} // Garante que o volume esteja no máximo
+          isMuted={false} // Garante que o som não esteja mutado
+        />
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    backgroundColor: "#000",
+  button: {
+    top: 285,
+    left: 610,
+    borderRadius: 20,
+    backgroundColor: "#7834c4",
+    height: 40,
+    width: 100,
   },
+  comercial: {
+    left: 283,
+    top: 255,
+    fontSize: 15,
+    fontWeight: "700",
+    fontFamily: "Inter-Bold",
+    color: "#fff",
+    textAlign: "center",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 30
+  },
+  page3: {
+    backgroundColor: "#000",
+    flex: 1,
+    width: "100%",
+    height: 640,
+    overflow: "hidden"
+  },
+  logo: {
+    width: 300,
+    height: 300,
+    top: -48,
+    left: 220,
+  },
+  video: {
+    width: 480,
+    height: 480,
+    top: -160,
+    left: 125
+  }
 });
 
 export default PageTres;
