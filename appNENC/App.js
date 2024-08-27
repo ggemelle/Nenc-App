@@ -8,10 +8,11 @@ import PageTres from "./pages/pageTres.js";
 import PageQuatro from "./pages/pageQuatro.js";
 import PageCinco from "./pages/pageCinco.js";
 import PageSeis from "./pages/pageSeis.js";
+import PageSete from "./pages/pageSete.js";
 
 function HomeScreen({ navigation }) {
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('PageCinco')}>
+    <TouchableOpacity onPress={() => navigation.navigate('PageDois')}>
       <View style={styles.planoDeFundo}>
         <Image style={styles.logoIcon} resizeMode="cover" source={logoImage} />
       </View>
@@ -31,6 +32,7 @@ const MyApp = () => {
         <Stack.Screen name="PageQuatro" component={PageQuatro} options={{ headerShown: false }} />
         <Stack.Screen name="PageCinco" component={PageCinco} options={{ headerShown: false }} />
         <Stack.Screen name="PageSeis" component={PageSeis} options={{ headerShown: false }} />
+        <Stack.Screen name="PageSete" component={PageSete} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -15,7 +15,7 @@ const SevenScreen = ({ navigation }) => {
             Quando estiver pronto para continuar, aperte CONTINUAR.
             </Text>
 
-            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('TelaOito')}>
+            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('PageSete')}>
                 <Text style={styles.iniciar}>CONTINUAR</Text>
             </TouchableOpacity>
             <View style={styles.cliqueParaIniciar}>

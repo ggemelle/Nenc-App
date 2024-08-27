@@ -10,7 +10,7 @@ const palavras = [
     "DESAGRADÁVEL", "DESCONFORTO", "INSEGURANÇA"
 ];
 
-const PageCinco = () => {
+const PageSete = () => {
     const navigation = useNavigation();
     const [currentWordIndex, setCurrentWordIndex] = React.useState(0);
     const [draggedCount, setDraggedCount] = React.useState(0);
@@ -33,7 +33,7 @@ const PageCinco = () => {
             resetPosition();
         } else {
             Alert.alert("Fim", "Você completou todas as tentativas.");
-            navigation.navigate('PageSeis');
+            navigation.navigate('PageOito');
         }
     };
 
@@ -165,4 +165,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default PageCinco;
+export default PageSete;
