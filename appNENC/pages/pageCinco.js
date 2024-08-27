@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Image, StyleSheet, Text, View, PanResponder, Animated, Easing, Alert } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import { Audio } from 'expo-av';
 import somenteLogo from '../assets/somenteLogo.png';
 import Elipse from '../assets/Ellipse3.png';
 
@@ -16,6 +17,25 @@ const PageCinco = () => {
     const [draggedCount, setDraggedCount] = React.useState(0);
     const pan = React.useRef(new Animated.ValueXY()).current;
     const offset = React.useRef({ x: 0, y: 0 }).current;
+    const sound = React.useRef(new Audio.Sound());
+
+    // Função para carregar o som
+    const loadSound = async () => {
+        try {
+            await sound.current.loadAsync(require('../assets/beep.mp3'));
+        } catch (error) {
+            console.log("Erro ao carregar o som:", error);
+        }
+    };
+
+    // Função para tocar o som
+    const playSound = async () => {
+        try {
+            await sound.current.replayAsync();
+        } catch (error) {
+            console.log("Erro ao tocar o som:", error);
+        }
+    };
 
     // Função para resetar a posição da palavra
     const resetPosition = () => {
@@ -44,10 +64,13 @@ const PageCinco = () => {
             duration: 2000,
             easing: Easing.linear,
             useNativeDriver: false,
-        }).start(({ finished }) => {
+        }).start(async ({ finished }) => {  // Tornando o callback async
             if (finished) {
-                Alert.alert("Tempo esgotado", "Você não arrastou a palavra a tempo.");
-                nextWord();
+                await playSound();  // Espera o som terminar antes de continuar
+                setTimeout(() => {
+                    Alert.alert("Tempo esgotado", "Você não arrastou a palavra a tempo.");
+                    nextWord();
+                }, 300);
             }
         });
     };
@@ -79,6 +102,7 @@ const PageCinco = () => {
                 (moveX > 600 && moveX < 750 && moveY > 200 && moveY < 400)) {
                 nextWord();
             } else {
+                playSound();
                 Alert.alert("Alerta", "Você deve arrastar a palavra para uma das áreas 'SIM' ou 'NÃO'.");
                 resetPosition();
             }
@@ -86,7 +110,12 @@ const PageCinco = () => {
     });
 
     React.useEffect(() => {
+        loadSound();
         startWordAnimation();
+
+        return () => {
+            sound.current.unloadAsync(); // Descarregar o som quando o componente for desmontado
+        };
     }, [currentWordIndex]);
 
     return (

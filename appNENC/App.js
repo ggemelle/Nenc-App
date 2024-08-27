@@ -9,6 +9,7 @@ import PageQuatro from "./pages/pageQuatro.js";
 import PageCinco from "./pages/pageCinco.js";
 import PageSeis from "./pages/pageSeis.js";
 import PageSete from "./pages/pageSete.js";
+import PageOito from "./pages/pageOito.js";
 
 function HomeScreen({ navigation }) {
   return (
@@ -33,6 +34,7 @@ const MyApp = () => {
         <Stack.Screen name="PageCinco" component={PageCinco} options={{ headerShown: false }} />
         <Stack.Screen name="PageSeis" component={PageSeis} options={{ headerShown: false }} />
         <Stack.Screen name="PageSete" component={PageSete} options={{ headerShown: false }} />
+        <Stack.Screen name="PageOito" component={PageOito} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

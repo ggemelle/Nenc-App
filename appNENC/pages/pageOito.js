@@ -3,7 +3,7 @@ import { Image, StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import somenteLogo from '../assets/somenteLogo.png';
 
-const ScreenDoze = () => {
+const PageOito = () => {
     const navigation = useNavigation(); // Hook para navegar entre as telas
 
     const handlePress = () => {
@@ -45,4 +45,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ScreenDoze;
+export default PageOito;
