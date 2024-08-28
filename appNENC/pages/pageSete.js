@@ -60,7 +60,7 @@ const PageSete = () => {
 
     // Função para avançar para a próxima palavra
     const nextWord = () => {
-        if (draggedCount < 8) {
+        if (draggedCount <= 10) {
             const nextIndex = (currentWordIndex + 1) % shuffledWords.length;
             setCurrentWordIndex(nextIndex);
             setDraggedCount(prev => prev + 1);
@@ -136,15 +136,23 @@ const PageSete = () => {
         return header + rows;
     };
 
+    // Função para gerar um nome de arquivo único com base na data e hora
+    const generateFileName = () => {
+        const date = new Date();
+        const timestamp = date.toISOString().replace(/[-:.T]/g, '_'); // Remove caracteres inválidos para nomes de arquivos
+        return `resposta_${timestamp}.csv`;
+    };
+
     // Função para exportar o CSV
     const exportCSV = async () => {
         try {
             const csvContent = convertToCSV(attempts);
-            const path = `${FileSystem.documentDirectory}attempts.csv`;
+            const fileName = generateFileName();
+            const path = `${FileSystem.documentDirectory}${fileName}`;
             await FileSystem.writeAsStringAsync(path, csvContent, {
                 encoding: FileSystem.EncodingType.UTF8,
             });
-            Alert.alert("Sucesso", "CSV exportado com sucesso!");
+            Alert.alert("Sucesso", `CSV exportado com sucesso! Arquivo: ${fileName}`);
         } catch (error) {
             console.log("Erro ao exportar CSV:", error);
             Alert.alert("Erro", "Houve um problema ao exportar o CSV.");
