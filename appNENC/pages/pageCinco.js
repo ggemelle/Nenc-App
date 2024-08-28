@@ -11,8 +11,19 @@ const palavras = [
     "DESAGRADÁVEL", "DESCONFORTO", "INSEGURANÇA"
 ];
 
+// Função para embaralhar a lista de palavras
+const shuffleArray = (array) => {
+    let shuffled = array.slice();
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+};
+
 const PageCinco = () => {
     const navigation = useNavigation();
+    const [shuffledWords, setShuffledWords] = React.useState(shuffleArray(palavras));
     const [currentWordIndex, setCurrentWordIndex] = React.useState(0);
     const [draggedCount, setDraggedCount] = React.useState(0);
     const pan = React.useRef(new Animated.ValueXY()).current;
@@ -48,7 +59,8 @@ const PageCinco = () => {
     // Função para avançar para a próxima palavra
     const nextWord = () => {
         if (draggedCount < 8) {
-            setCurrentWordIndex(prev => (prev + 1) % palavras.length);
+            const nextIndex = (currentWordIndex + 1) % shuffledWords.length;
+            setCurrentWordIndex(nextIndex);
             setDraggedCount(prev => prev + 1);
             resetPosition();
         } else {
@@ -129,7 +141,7 @@ const PageCinco = () => {
                 {...panResponder.panHandlers}
                 style={[pan.getLayout(), styles.draggableContainer]}
             >
-                <Text style={styles.words}>{palavras[currentWordIndex]}</Text>
+                <Text style={styles.words}>{shuffledWords[currentWordIndex]}</Text>
             </Animated.View>
         </View>
     );
