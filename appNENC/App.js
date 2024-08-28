@@ -10,6 +10,7 @@ import PageCinco from "./pages/pageCinco.js";
 import PageSeis from "./pages/pageSeis.js";
 import PageSete from "./pages/pageSete.js";
 import PageOito from "./pages/pageOito.js";
+import ScreenFeature from "./pages/sceenFeature.js";
 
 function HomeScreen({ navigation }) {
   return (
@@ -35,6 +36,7 @@ const MyApp = () => {
         <Stack.Screen name="PageSeis" component={PageSeis} options={{ headerShown: false }} />
         <Stack.Screen name="PageSete" component={PageSete} options={{ headerShown: false }} />
         <Stack.Screen name="PageOito" component={PageOito} options={{ headerShown: false }} />
+        <Stack.Screen name="ScreenFeature" component={ScreenFeature} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
