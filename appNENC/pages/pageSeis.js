@@ -9,13 +9,13 @@ const SevenScreen = ({ navigation }) => {
         <View style={styles.planoDeFundo}>
             <Image style={styles.logo} resizeMode="cover" source={somenteLogo} />
             <Text style={styles.naPesquisaDe}>
-            Ótimo trabalho, você está rápido!{"\n\n"}
-            Agora, vamos repetir a tarefa, mas com uma pequena mudança. Desta vez, algumas combinações de imagem e palavras aparecerão na tela antes das palavras "SIM" ou "NÃO".{"\n\n"}
-            Sua tarefa: Ignore as combinações de imagem e palavras e responda somente às palavras "SIM" ou "NÃO", como fez anteriormente.{"\n\n"}
-            Quando estiver pronto para continuar, aperte CONTINUAR.
+            Parabéns, você está indo muito bem!{"\n\n"}
+            Agora, vamos repetir a tarefa.{"\n"}
+            Seja rápido, mas tente evitar erros.{"\n\n"}
+            Quando estiver pronto para seguir em frente, pressione CONTINUAR.
             </Text>
 
-            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('PageSete')}>
+            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('ScreenFeature')}>
                 <Text style={styles.iniciar}>CONTINUAR</Text>
             </TouchableOpacity>
             <View style={styles.cliqueParaIniciar}>

@@ -92,9 +92,9 @@ const styles = StyleSheet.create({
     left: 220,
   },
   video: {
-    width: 480,
-    height: 480,
-    top: -160,
+    width: 465,
+    height: 465,
+    top: -138,
     left: 125
   }
 });

@@ -9,12 +9,11 @@ const PageQuatro = ({ navigation }) => {
         <View style={styles.planoDeFundo}>
             <Image style={styles.logo} resizeMode="cover" source={somenteLogo} />
             <Text style={styles.naPesquisaDe}>
-                Bem-vindo ao jogo da identificação de palavras!{"\n\n"}
-                Seu objetivo é responder o mais rápido possível. Aqui está o que você deve fazer:{"\n"}
-                Quando aparecer "SIM," aperte o botão SIM.{"\n"}
-                Quando aparecer "NÃO," aperte o botão NÃO.{"\n\n"}
-                Seja rápido! Erros podem acontecer, mas tente não cometer muitos. Se você pressionar a tecla errada, ouvirá um bipe.{"\n\n"}
-                Quando estiver pronto para começar, pressione INICIAR.
+                Bem-vindo(a) ao jogo!{"\n\n"}
+                Nesta fase de treino, seu objetivo é responder o mais rápido possível. Aqui está o que você deve fazer:{"\n"}
+                Palavras irão descer rapidamente na sua tela, e você deve arrastá-las para "SIM" ou "NÃO", conforme sua interpretação:{"\n\n"}
+                Seja ágil! É normal cometer alguns erros, mas tente não cometer muitos. Se você arrastar para o lado errado, ouvirá um bipe de correção.{"\n\n"}
+                Quando estiver pronto(a) para começar, pressione "INICIAR".
             </Text>
 
             <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('PageCinco')}>

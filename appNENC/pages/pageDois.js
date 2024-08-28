@@ -9,11 +9,11 @@ const PageDois = ({ navigation }) => {
         <View style={styles.planoDeFundo}>
             <Image style={styles.logo} resizeMode="cover" source={somenteLogo} />
             <Text style={styles.naPesquisaDe}>
-                Na pesquisa de hoje, você irá avaliar uma marca de preservativos.{"\n"}
-                Para isso, realizaremos duas tarefas simples em formato de jogo: uma de identificação de palavras e outra de escolha.{"\n"}
-                O objetivo é que você complete essas tarefas o mais rápido possível.{"\n\n"}
-                Antes de começar, será exibido um comercial da Olla. Assista com atenção.{"\n\n"}
-                Quando estiver pronto para continuar, clique em INICIAR.
+                Na pesquisa de hoje, você será convidado(a) a avaliar uma marca de preservativos.{"\n"}
+                Para isso, participará de uma tarefa simples em formato de jogo: palavras aparecerão na tela e irão descer rapidamente.{"\n"}
+                Seu objetivo é arrastar cada palavra até o botão "SIM" ou "NÃO" o mais rápido possível.{"\n"}
+                Antes de iniciar, será exibida uma imagem ou propaganda da marca Olla. Por favor, assista com atenção.{"\n\n"}
+                Quando estiver pronto(a) para continuar, clique em "INICIAR".
             </Text>
 
             <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('PageTres')}>
