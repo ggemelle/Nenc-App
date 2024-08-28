@@ -3,16 +3,29 @@ import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { Video } from 'expo-av'; // Certifique-se de ter o pacote expo-av instalado
 import Logo from "../assets/ollaLogo.png";
 import VideoSource from "../assets/comercial.mp4";
+import { useNavigation } from '@react-navigation/native'; // Importa o hook de navegação
+
 
 const PageTres = () => {
   const [mediaType, setMediaType] = React.useState('image');
   const videoRef = React.useRef(null);
+  const navigation = useNavigation(); // Instancia o hook de navegação
 
   React.useEffect(() => {
     if (mediaType === 'video' && videoRef.current) {
       videoRef.current.playAsync(); // Garante que o vídeo será reproduzido quando alternar para vídeo
     }
-  }, [mediaType]);
+
+    // Lógica para navegar para a próxima tela após um tempo
+    const timeoutId = setTimeout(() => {
+      if (videoRef.current) {
+        videoRef.current.pauseAsync(); // Pausa o vídeo antes de navegar
+      }
+      navigation.navigate('PageQuatro'); // Substitua 'PageQuatro' pelo nome da sua próxima tela
+    }, 30000); // 30000ms = 30 segundos
+
+    return () => clearTimeout(timeoutId); // Limpa o timeout se o componente for desmontado ou se a mídia for alterada
+  }, [mediaType, navigation]);
 
   const toggleMediaType = () => {
     setMediaType(prevMediaType => prevMediaType === 'image' ? 'video' : 'image');
@@ -20,13 +33,13 @@ const PageTres = () => {
 
   return (
     <View style={styles.page3}>
-      <TouchableOpacity 
-        style={styles.button} 
+      <TouchableOpacity
+        style={styles.button}
         onPress={toggleMediaType}
         hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }} // Aumenta a área de toque do botão
       >
+        <Text style={styles.comercial}>COMERCIAL</Text>
       </TouchableOpacity>
-      <Text style={styles.comercial}>COMERCIAL</Text>
       {mediaType === 'image' ? (
         <Image style={styles.logo} resizeMode="contain" source={Logo} />
       ) : (
@@ -56,16 +69,13 @@ const styles = StyleSheet.create({
     width: 100,
   },
   comercial: {
-    left: 283,
-    top: 255,
+    left: 0,
+    top: 8,
     fontSize: 15,
     fontWeight: "700",
     fontFamily: "Inter-Bold",
     color: "#fff",
     textAlign: "center",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
     height: 30
   },
   page3: {
@@ -78,7 +88,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 300,
     height: 300,
-    top: -48,
+    top: -30,
     left: 220,
   },
   video: {

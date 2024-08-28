@@ -53,7 +53,7 @@ const PageSete = () => {
             resetPosition();
         } else {
             Alert.alert("Fim", "Você completou todas as tentativas.");
-            navigation.navigate('PageSeis');
+            navigation.navigate('PageOito');
         }
     };
 
