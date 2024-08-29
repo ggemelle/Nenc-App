@@ -1,22 +1,20 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
-import { Video } from 'expo-av';
+import { StyleSheet, View, Image } from "react-native";
 import Logo from "../assets/ollaLogo.png";
-import VideoSource from "../assets/comercial.mp4";
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
-const PageTres = () => {
-  const [mediaType, setMediaType] = React.useState('image');
+const PageTres = ({ route }) => {
   const navigation = useNavigation();
+  const { count } = route.params || 0; // Recebe o count da navegação
 
   useFocusEffect(
     React.useCallback(() => {
       const timeoutId = setTimeout(() => {
-        navigation.navigate('PageCinco');
+        navigation.navigate('PageCinco', { count }); // Passa o count de volta para PageCinco
       }, 1000);
 
       return () => clearTimeout(timeoutId);
-    }, [navigation])
+    }, [navigation, count])
   );
 
   return (
@@ -27,14 +25,6 @@ const PageTres = () => {
 };
 
 const styles = StyleSheet.create({
-  button: {
-    top: 285,
-    left: 610,
-    borderRadius: 20,
-    backgroundColor: "#7834c4",
-    height: 40,
-    width: 100,
-  },
   page3: {
     backgroundColor: "#fff",
     flex: 1,
