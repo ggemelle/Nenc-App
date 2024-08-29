@@ -9,14 +9,12 @@ const PageDois = ({ navigation }) => {
         <View style={styles.planoDeFundo}>
             <Image style={styles.logo} resizeMode="cover" source={somenteLogo} />
             <Text style={styles.naPesquisaDe}>
-                Na pesquisa de hoje, você será convidado(a) a avaliar uma marca de preservativos.{"\n"}
-                Para isso, participará de uma tarefa simples em formato de jogo: palavras aparecerão na tela e irão descer rapidamente.{"\n"}
-                Seu objetivo é arrastar cada palavra até o botão "SIM" ou "NÃO" o mais rápido possível.{"\n"}
-                Antes de iniciar, será exibida uma imagem ou propaganda da marca Olla. Por favor, assista com atenção.{"\n\n"}
-                Quando estiver pronto(a) para continuar, clique em "INICIAR".
+                Você vai avaliar uma marca em um jogo. {"\n"}
+                Relacione o atributo com "SIM" ou "NÃO" o mais rápido que puder.{"\n\n"}
+                Quando estiver pronto(a), clique em "INICIAR".
             </Text>
 
-            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('PageTres')}>
+            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('PageQuatro')}>
                 <Text style={styles.iniciar}>INICIAR</Text>
             </TouchableOpacity>
             <View style={styles.cliqueParaIniciar}>
@@ -28,12 +26,12 @@ const PageDois = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     logo: {
-        width: 100,
-        height: 100,
+        width: 70,
+        height: 70,
         marginBottom: 10,
     },
     naPesquisaDe: {
-        fontSize: 15,
+        fontSize: 20,
         width: '100%',
         height: 150,
         color: "#000",

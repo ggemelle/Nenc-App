@@ -10,8 +10,7 @@ const SevenScreen = ({ navigation }) => {
             <Image style={styles.logo} resizeMode="cover" source={somenteLogo} />
             <Text style={styles.naPesquisaDe}>
             Parabéns, você está indo muito bem!{"\n\n"}
-            Agora, vamos repetir a tarefa.{"\n"}
-            Seja rápido, mas tente evitar erros.{"\n\n"}
+            Agora, vamos repetir a tarefa (Mas agora valendo hein?!).{"\n\n"}
             Quando estiver pronto para seguir em frente, pressione CONTINUAR.
             </Text>
 
@@ -27,12 +26,12 @@ const SevenScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     logo: {
-        width: 100,
-        height: 100,
+        width: 70,
+        height: 70,
         marginBottom: 0,
     },
     naPesquisaDe: {
-        fontSize: 15,
+        fontSize: 20,
         width: '100%',
         height: 180,
         color: "#000",

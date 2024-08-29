@@ -10,13 +10,12 @@ const PageQuatro = ({ navigation }) => {
             <Image style={styles.logo} resizeMode="cover" source={somenteLogo} />
             <Text style={styles.naPesquisaDe}>
                 Bem-vindo(a) ao jogo!{"\n\n"}
-                Nesta fase de treino, seu objetivo é responder o mais rápido possível. Aqui está o que você deve fazer:{"\n"}
-                Palavras irão descer rapidamente na sua tela, e você deve arrastá-las para "SIM" ou "NÃO", conforme sua interpretação:{"\n\n"}
-                Seja ágil! É normal cometer alguns erros, mas tente não cometer muitos. Se você arrastar para o lado errado, ouvirá um bipe de correção.{"\n\n"}
+                Marque "SIM" ou "NÃO" dentro de 6 segundos. {"\n"}
+                Se errar, ouvirá um bipe de correção. Tente acertar o máximo possível.{"\n\n"}
                 Quando estiver pronto(a) para começar, pressione "INICIAR".
             </Text>
 
-            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('PageCinco')}>
+            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('PageTres')}>
                 <Text style={styles.iniciar}>INICIAR</Text>
             </TouchableOpacity>
             <View style={styles.cliqueParaIniciar}>
@@ -28,12 +27,12 @@ const PageQuatro = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     logo: {
-        width: 100,
-        height: 100,
+        width: 70,
+        height: 70,
         marginBottom: 0,
     },
     naPesquisaDe: {
-        fontSize: 14,
+        fontSize: 18,
         width: '100%',
         height: 180,
         color: "#000",

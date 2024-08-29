@@ -14,10 +14,17 @@ import ScreenFeature from "./pages/sceenFeature.js";
 import FlagPageCinco from "./pages/flagPageCinco.js";
 
 function HomeScreen({ navigation }) {
+  navigation.navigate('PageDois')
   return (
+<<<<<<< HEAD
     <TouchableOpacity onPress={() => navigation.navigate('FlagPageCinco')}>
+=======
+    
+    <TouchableOpacity onPress={() => navigation.navigate('PageDois')}>
+>>>>>>> 779b8eb7b7d39710e4d89d57252a8d804b7801df
       <View style={styles.planoDeFundo}>
         <Image style={styles.logoIcon} resizeMode="cover" source={logoImage} />
+        <Text style={styles.text}>Clique ao centro da tela para começar a jogar</Text>
       </View>
     </TouchableOpacity>
   );
@@ -49,12 +56,22 @@ const styles = StyleSheet.create({
   logoIcon: {
     width: 480,
     height: 480,
-    top: -50,
+  
   },
   planoDeFundo: {
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center"
+  },
+
+  text: {
+    width: 480,
+    height: 480,
+    fontSize: 18,
+    color: "#000",
+    textAlign: "center",
+    top: -100,
+    fontWeight: "bold"
   }
 });
 
