@@ -1,9 +1,10 @@
-import * as React from "react";
-import { Image, StyleSheet, Text, View, PanResponder, Animated, Easing, Alert } from "react-native";
-import { useNavigation } from '@react-navigation/native';
-import { Audio } from 'expo-av';
+import * as React from 'react';
+import { Image, StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { useState, useEffect } from 'react';
+import { useFonts, Almarai_700Bold, Almarai_800ExtraBold } from '@expo-google-fonts/almarai';
 import somenteLogo from '../assets/somenteLogo.png';
 import Elipse from '../assets/Ellipse3.png';
+import { Audio } from 'expo-av';
 
 const palavras = [
     "INCONVENIÊNCIA", "AMOR", "QUALIDADE", "SENSAÇÃO", "DESCONFIANÇA",
@@ -11,199 +12,152 @@ const palavras = [
     "DESAGRADÁVEL", "DESCONFORTO", "INSEGURANÇA"
 ];
 
-// Função para embaralhar a lista de palavras
-const shuffleArray = (array) => {
-    let shuffled = array.slice();
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-};
+const PageCinco = ({ navigation }) => {
+    const [currentText, setCurrentText] = useState(null);
+    const [sound, setSound] = useState();
+    const [count, setCount] = useState(0); // Contador para o número de redirecionamentos
 
-const PageCinco = () => {
-    const navigation = useNavigation();
-    const [shuffledWords, setShuffledWords] = React.useState(shuffleArray(palavras));
-    const [currentWordIndex, setCurrentWordIndex] = React.useState(0);
-    const [draggedCount, setDraggedCount] = React.useState(0);
-    const pan = React.useRef(new Animated.ValueXY()).current;
-    const offset = React.useRef({ x: 0, y: 0 }).current;
-    const sound = React.useRef(new Audio.Sound());
-
-    // Função para carregar o som
-    const loadSound = async () => {
-        try {
-            await sound.current.loadAsync(require('../assets/beep.mp3'));
-        } catch (error) {
-            console.log("Erro ao carregar o som:", error);
-        }
-    };
-
-    // Função para tocar o som
-    const playSound = async () => {
-        try {
-            await sound.current.replayAsync();
-        } catch (error) {
-            console.log("Erro ao tocar o som:", error);
-        }
-    };
-
-    // Função para resetar a posição da palavra
-    const resetPosition = () => {
-        pan.setValue({ x: 0, y: 0 });
-        offset.x = 0;
-        offset.y = 0;
-        startWordAnimation();
-    };
-
-    // Função para avançar para a próxima palavra
-    const nextWord = () => {
-        if (draggedCount < 8) {
-            const nextIndex = (currentWordIndex + 1) % shuffledWords.length;
-            setCurrentWordIndex(nextIndex);
-            setDraggedCount(prev => prev + 1);
-            resetPosition();
-        } else {
-            Alert.alert("Fim", "Você completou todas as tentativas.");
-            navigation.navigate('PageSeis');
-        }
-    };
-
-    // Animação de descida da palavra
-    const startWordAnimation = () => {
-        Animated.timing(pan, {
-            toValue: { x: 0, y: 400 },
-            duration: 6000,
-            easing: Easing.linear,
-            useNativeDriver: false,
-        }).start(async ({ finished }) => {  // Tornando o callback async
-            if (finished) {
-                await playSound();  // Espera o som terminar antes de continuar
-                setTimeout(() => {
-                    Alert.alert("Tempo esgotado", "Você não arrastou a palavra a tempo.");
-                    nextWord();
-                }, 300);
-            }
-        });
-    };
-
-    // PanResponder para o movimento de arrastar
-    const panResponder = PanResponder.create({
-        onStartShouldSetPanResponder: () => true,
-        onPanResponderGrant: () => {
-            pan.setOffset({
-                x: pan.x._value,
-                y: pan.y._value,
-            });
-            pan.setValue({ x: 0, y: 0 });
-        },
-        onPanResponderMove: Animated.event(
-            [
-                null,
-                { dx: pan.x, dy: pan.y }
-            ],
-            { useNativeDriver: false }
-        ),
-        onPanResponderRelease: (e, gesture) => {
-            pan.flattenOffset();
-
-            const { moveX, moveY } = gesture;
-
-            // Verifica se a palavra foi arrastada para as áreas das elipses
-            if ((moveX > 50 && moveX < 200 && moveY > 200 && moveY < 400) ||
-                (moveX > 600 && moveX < 750 && moveY > 200 && moveY < 400)) {
-                nextWord();
-            } else {
-                playSound();
-                Alert.alert("Alerta", "Você deve arrastar a palavra para uma das áreas 'SIM' ou 'NÃO'.");
-                resetPosition();
-            }
-        }
+    let [fontsLoaded] = useFonts({
+        Almarai_700Bold,
+        Almarai_800ExtraBold,
     });
 
-    React.useEffect(() => {
-        loadSound();
-        startWordAnimation();
+    useEffect(() => {
+        if (sound) {
+            return () => {
+                sound.unloadAsync();
+            };
+        }
+    }, [sound]);
 
-        return () => {
-            sound.current.unloadAsync(); // Descarregar o som quando o componente for desmontado
-        };
-    }, [currentWordIndex]);
+    useEffect(() => {
+        if (fontsLoaded) {
+            showRandomText(); // Mostra uma palavra aleatória quando as fontes são carregadas
+            const timer = setTimeout(() => {
+              if (count <= 6) { // Redireciona até 11 vezes
+                playSound();
+                Alert.alert(
+                  "Tempo Esgotado",
+                  "Você não pressionou um botão a tempo.",
+                  [{ text: "OK", onPress: () => navigation.navigate('PageTres') }] // Redireciona para a mesma página
+                );
+                setCount(count + 1);
+              } else {
+                navigation.navigate('PageSeis'); // Navega para a nova tela após 11 vezes
+              }
+            }, 2500);
+          
+            return () => clearTimeout(timer); // Limpa o timer se o componente desmontar
+        }
+    }, [count, fontsLoaded]);
+
+    async function playSound() {
+        const { sound } = await Audio.Sound.createAsync(require('../assets/beep.mp3'));
+        setSound(sound);
+        await sound.playAsync();
+    }
+
+    if (!fontsLoaded) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        );
+    }
+
+    // Função para mostrar texto aleatório da lista de palavras
+    const showRandomText = () => {
+        const randomText = palavras[Math.floor(Math.random() * palavras.length)];
+        setCurrentText(randomText);
+    };
+
+    // Lógica para tratar quando o botão é pressionado
+    const handlePress = () => {
+        navigation.navigate('PageTres'); // Redireciona para a mesma página
+        showRandomText();
+    };
 
     return (
         <View style={styles.planoDeFundo}>
-            <Image style={styles.logo} resizeMode="cover" source={somenteLogo} />
-            <Image style={styles.noElipse} resizeMode="cover" source={Elipse} />
-            <Text style={styles.noTypo}>NÃO</Text>
-            <Image style={styles.simElipse} resizeMode="cover" source={Elipse} />
-            <Text style={styles.simTypo}>SIM</Text>
-            <Animated.View
-                {...panResponder.panHandlers}
-                style={[pan.getLayout(), styles.draggableContainer]}
-            >
-                <Text style={styles.words}>{shuffledWords[currentWordIndex]}</Text>
-            </Animated.View>
+            <Image style={styles.logo} resizeMode="contain" source={somenteLogo} />
+            {currentText && (
+                <Text style={styles.words}>
+                    {currentText}
+                </Text>
+            )}
+            <Image style={[styles.elipse, styles.elipseLeft]} resizeMode="contain" source={Elipse} />
+            <Image style={[styles.elipse, styles.elipseRight]} resizeMode="contain" source={Elipse} />
+            <TouchableOpacity style={[styles.labelText, styles.labelNao]} onPress={handlePress}>
+                <Text style={styles.labelTextInner}>NÃO</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.labelText, styles.labelSim]} onPress={handlePress}>
+                <Text style={styles.labelTextInner}>SIM</Text>
+            </TouchableOpacity>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    planoDeFundo: {
-        backgroundColor: "#fff",
+    loadingContainer: {
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
-        height: "100%",
-        overflow: "hidden"
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    planoDeFundo: {
+        backgroundColor: '#fff',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     logo: {
         width: 70,
         height: 70,
-        alignSelf: "center",
-        top: 40
+        top: -125
     },
     words: {
         fontSize: 30,
         fontWeight: "700",
-        fontFamily: "Almarai-Bold",
+        fontFamily: "Almarai_700Bold",
         color: "#7834c4",
         textAlign: "center",
         textTransform: "uppercase",
-        top: -290
+        top: -100
     },
-    noElipse: {
-        width: 120,
+    elipse: {
         height: 120,
-        left: -260,
-        top: 180
-    },
-    noTypo: {
-        color: "#000",
-        fontFamily: "Almarai-ExtraBold",
-        fontWeight: "800",
-        fontSize: 30,
-        textAlign: "center",
-        textTransform: "uppercase",
-        top: 100,
-        left: -260
-    },
-    simElipse: {
         width: 120,
-        height: 120,
-        top: 22,
-        left: 260
+        position: 'absolute',
     },
-    simTypo: {
-        color: "#000",
-        fontFamily: "Almarai-ExtraBold",
-        fontWeight: "800",
-        fontSize: 30,
-        textAlign: "center",
-        textTransform: "uppercase",
-        top: -60,
-        left: 260
-    }
+    elipseLeft: {
+        top: '60%',
+        left: '9%',
+    },
+    elipseRight: {
+        top: '60%',
+        left: '75%',
+    },
+    labelText: {
+        position: 'absolute',
+        height: 120,
+        width: 120,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    labelTextInner: {
+        color: '#fff',
+        fontSize: 35,
+        textAlign: 'center',
+        fontFamily: 'Almarai_800ExtraBold',
+        textTransform: 'uppercase',
+    },
+    labelNao: {
+        top: '60%',
+        left: '9%',
+    },
+    labelSim: {
+        top: '60%',
+        left: '75%',
+    },
 });
 
 export default PageCinco;

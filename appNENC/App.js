@@ -16,12 +16,7 @@ import FlagPageCinco from "./pages/flagPageCinco.js";
 function HomeScreen({ navigation }) {
   navigation.navigate('PageDois')
   return (
-<<<<<<< HEAD
-    <TouchableOpacity onPress={() => navigation.navigate('FlagPageCinco')}>
-=======
-    
     <TouchableOpacity onPress={() => navigation.navigate('PageDois')}>
->>>>>>> 779b8eb7b7d39710e4d89d57252a8d804b7801df
       <View style={styles.planoDeFundo}>
         <Image style={styles.logoIcon} resizeMode="cover" source={logoImage} />
         <Text style={styles.text}>Clique ao centro da tela para começar a jogar</Text>

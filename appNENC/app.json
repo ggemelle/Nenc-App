@@ -3,6 +3,9 @@
     "name": "appNENC",
     "slug": "appNENC",
     "version": "1.0.0",
-    "orientation": "landscape"
+    "orientation": "landscape",
+    "plugins": [
+      "expo-font"
+    ]
   }
 }
