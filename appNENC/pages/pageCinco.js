@@ -12,10 +12,10 @@ const palavras = [
     "DESAGRADÁVEL", "DESCONFORTO", "INSEGURANÇA"
 ];
 
-const PageCinco = ({ navigation }) => {
+const PageCinco = ({ navigation, route }) => {
     const [currentText, setCurrentText] = useState(null);
     const [sound, setSound] = useState();
-    const [count, setCount] = useState(0); // Contador para o número de redirecionamentos
+    const [count, setCount] = useState(route.params?.count || 0); // Recebe o count inicial da navegação
 
     let [fontsLoaded] = useFonts({
         Almarai_700Bold,
@@ -32,30 +32,50 @@ const PageCinco = ({ navigation }) => {
 
     useEffect(() => {
         if (fontsLoaded) {
-            showRandomText(); // Mostra uma palavra aleatória quando as fontes são carregadas
+            showRandomText(); // Mostra uma palavra aleatória ao carregar as fontes
+        }
+    }, [fontsLoaded]);
+
+    useEffect(() => {
+        if (currentText && count < 7) {
             const timer = setTimeout(() => {
-              if (count <= 6) { // Redireciona até 11 vezes
                 playSound();
                 Alert.alert(
-                  "Tempo Esgotado",
-                  "Você não pressionou um botão a tempo.",
-                  [{ text: "OK", onPress: () => navigation.navigate('PageTres') }] // Redireciona para a mesma página
+                    "Tempo Esgotado",
+                    "Você não pressionou um botão a tempo.",
+                    [{ text: "OK", onPress: handlePress }]
                 );
-                setCount(count + 1);
-              } else {
-                navigation.navigate('PageSeis'); // Navega para a nova tela após 11 vezes
-              }
             }, 2500);
-          
+
             return () => clearTimeout(timer); // Limpa o timer se o componente desmontar
+        } else if (count >= 7) {
+            navigation.navigate('PageSeis'); // Navega para PageSeis quando count for 7
         }
-    }, [count, fontsLoaded]);
+    }, [currentText]);
 
     async function playSound() {
         const { sound } = await Audio.Sound.createAsync(require('../assets/beep.mp3'));
         setSound(sound);
         await sound.playAsync();
     }
+
+    // Função para mostrar texto aleatório da lista de palavras
+    const showRandomText = () => {
+        if (count < 7) {
+            const randomText = palavras[Math.floor(Math.random() * palavras.length)];
+            setCurrentText(randomText);
+            setCount(prevCount => prevCount + 1); // Incrementa o contador de palavras exibidas
+        }
+    };
+
+    // Lógica para tratar quando o botão é pressionado
+    const handlePress = () => {
+        if (count < 7) {
+            navigation.navigate('PageTres', { count }); // Passa o count para PageTres
+        } else {
+            navigation.navigate('PageSeis'); // Vai para PageSeis quando count for 7
+        }
+    };
 
     if (!fontsLoaded) {
         return (
@@ -64,18 +84,6 @@ const PageCinco = ({ navigation }) => {
             </View>
         );
     }
-
-    // Função para mostrar texto aleatório da lista de palavras
-    const showRandomText = () => {
-        const randomText = palavras[Math.floor(Math.random() * palavras.length)];
-        setCurrentText(randomText);
-    };
-
-    // Lógica para tratar quando o botão é pressionado
-    const handlePress = () => {
-        navigation.navigate('PageTres'); // Redireciona para a mesma página
-        showRandomText();
-    };
 
     return (
         <View style={styles.planoDeFundo}>
