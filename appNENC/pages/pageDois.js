@@ -28,8 +28,8 @@ const PageDois = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     logo: {
-        width: 100,
-        height: 100,
+        width: 70,
+        height: 70,
         marginBottom: 10,
     },
     naPesquisaDe: {

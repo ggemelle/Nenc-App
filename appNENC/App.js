@@ -13,10 +13,13 @@ import PageOito from "./pages/pageOito.js";
 import ScreenFeature from "./pages/sceenFeature.js";
 
 function HomeScreen({ navigation }) {
+  navigation.navigate('PageDois')
   return (
+    
     <TouchableOpacity onPress={() => navigation.navigate('PageDois')}>
       <View style={styles.planoDeFundo}>
         <Image style={styles.logoIcon} resizeMode="cover" source={logoImage} />
+        <Text style={styles.text}>Clique ao centro da tela para começar a jogar</Text>
       </View>
     </TouchableOpacity>
   );
@@ -47,12 +50,22 @@ const styles = StyleSheet.create({
   logoIcon: {
     width: 480,
     height: 480,
-    top: -50,
+  
   },
   planoDeFundo: {
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center"
+  },
+
+  text: {
+    width: 480,
+    height: 480,
+    fontSize: 18,
+    color: "#000",
+    textAlign: "center",
+    top: -100,
+    fontWeight: "bold"
   }
 });
 
