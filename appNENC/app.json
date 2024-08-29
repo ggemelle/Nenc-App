@@ -3,10 +3,6 @@
     "name": "appNENC",
     "slug": "appNENC",
     "version": "1.0.0",
-    "extra": {
-      "eas": {
-        "projectId": "8d0888a9-736a-44b2-8b53-870fa1a254e4"
-      }
-    }
+
   }
 }
