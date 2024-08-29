@@ -73,7 +73,7 @@ const PageCinco = () => {
     const startWordAnimation = () => {
         Animated.timing(pan, {
             toValue: { x: 0, y: 400 },
-            duration: 2000,
+            duration: 6000,
             easing: Easing.linear,
             useNativeDriver: false,
         }).start(async ({ finished }) => {  // Tornando o callback async
