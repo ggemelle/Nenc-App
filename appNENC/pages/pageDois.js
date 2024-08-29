@@ -16,7 +16,7 @@ const PageDois = ({ navigation }) => {
                 Quando estiver pronto(a) para continuar, clique em "INICIAR".
             </Text>
 
-            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('PageTres')}>
+            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('PageQuatro')}>
                 <Text style={styles.iniciar}>INICIAR</Text>
             </TouchableOpacity>
             <View style={styles.cliqueParaIniciar}>

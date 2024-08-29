@@ -13,7 +13,7 @@ const PageTres = () => {
   React.useEffect(() => {
     // Lógica para navegar para a próxima tela após um tempo
     const timeoutId = setTimeout(() => {
-      navigation.navigate('PageQuatro'); // Substitua 'PageQuatro' pelo nome da sua próxima tela
+      navigation.navigate('PageCinco'); // Substitua 'PageQuatro' pelo nome da sua próxima tela
     }, 1000); // 5000ms = 5 segundos
 
     return () => clearTimeout(timeoutId); // Limpa o timeout se o componente for desmontado ou se a mídia for alterada
