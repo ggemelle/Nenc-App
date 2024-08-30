@@ -5,6 +5,8 @@ import { useFonts, Almarai_700Bold, Almarai_800ExtraBold } from '@expo-google-fo
 import somenteLogo from '../assets/somenteLogo.png';
 import Elipse from '../assets/Ellipse3.png';
 import { Audio } from 'expo-av';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 
 const palavras = [
     "INCONVENIÊNCIA", "AMOR", "QUALIDADE", "SENSAÇÃO", "DESCONFIANÇA",
@@ -12,11 +14,13 @@ const palavras = [
     "DESAGRADÁVEL", "DESCONFORTO", "INSEGURANÇA"
 ];
 
-const PageCinco = ({ navigation, route }) => {
+const PageEight = ({ navigation, route }) => {
     const [currentText, setCurrentText] = useState(null);
     const [sound, setSound] = useState();
     const [count, setCount] = useState(route.params?.count || 0);
-    const [timerActive, setTimerActive] = useState(false); // Estado para controlar o timer
+    const [timerActive, setTimerActive] = useState(false); 
+    const [timerId, setTimerId] = useState(null); // Armazenar o ID do temporizador
+    const [data, setData] = useState([]); // Estado para armazenar os dados
 
     let [fontsLoaded] = useFonts({
         Almarai_700Bold,
@@ -39,8 +43,8 @@ const PageCinco = ({ navigation, route }) => {
 
     useEffect(() => {
         let timer;
-        if (currentText && count < 7) {
-            setTimerActive(true); // Ativa o timer
+        if (currentText && count < 12) {
+            setTimerActive(true); 
             timer = setTimeout(() => {
                 playSound();
                 Alert.alert(
@@ -49,13 +53,15 @@ const PageCinco = ({ navigation, route }) => {
                     [{ text: "OK", onPress: handlePress }]
                 );
             }, 2500);
-        } else if (count >= 7) {
-            navigation.navigate('PageSeis');
+            setTimerId(timer); // Armazenar o ID do temporizador
+        } else if (count >= 12) {
+            saveAndShareCSV(); // Compartilhar CSV quando completar as 12 palavras
+            navigation.navigate('PageOito');
         }
 
         return () => {
-            clearTimeout(timer); // Limpa o timer
-            setTimerActive(false); // Desativa o timer
+            clearTimeout(timer);
+            setTimerActive(false);
         };
     }, [currentText, count]);
 
@@ -66,22 +72,46 @@ const PageCinco = ({ navigation, route }) => {
     }
 
     const showRandomText = () => {
-        if (count < 7) {
+        if (count < 12) {
             const randomText = palavras[Math.floor(Math.random() * palavras.length)];
             setCurrentText(randomText);
             setCount(prevCount => prevCount + 1);
         }
     };
 
-    const handlePress = () => {
+    const handlePress = (area) => {
         if (timerActive) {
-            clearTimeout(); // Limpa o timer se um botão for pressionado
+            clearTimeout(timerId); // Limpar o temporizador corretamente
         }
-        if (count < 7) {
-            navigation.navigate('PageTres', { count });
+
+        setData(prevData => [...prevData, { word: currentText, area }]);
+
+        if (count < 12) {
+            showRandomText();
+            navigation.navigate('PageSeven');
         } else {
-            navigation.navigate('PageSeis');
+            saveAndShareCSV(); // Compartilhar CSV quando terminar
+            navigation.navigate('PageOito');
         }
+    };
+
+    const saveAndShareCSV = async () => {
+        const csv = convertToCSV(data);
+        const fileUri = FileSystem.documentDirectory + 'data.csv';
+
+        await FileSystem.writeAsStringAsync(fileUri, csv);
+
+        if (await Sharing.isAvailableAsync()) {
+            await Sharing.shareAsync(fileUri);
+        } else {
+            Alert.alert('Erro', 'O compartilhamento de arquivos não está disponível no seu dispositivo.');
+        }
+    };
+
+    const convertToCSV = (data) => {
+        const header = 'Palavra,Área\n';
+        const rows = data.map(item => `${item.word},${item.area}`).join('\n');
+        return header + rows;
     };
 
     if (!fontsLoaded) {
@@ -102,10 +132,10 @@ const PageCinco = ({ navigation, route }) => {
             )}
             <Image style={[styles.elipse, styles.elipseLeft]} resizeMode="contain" source={Elipse} />
             <Image style={[styles.elipse, styles.elipseRight]} resizeMode="contain" source={Elipse} />
-            <TouchableOpacity style={[styles.labelText, styles.labelNao]} onPress={handlePress}>
+            <TouchableOpacity style={[styles.labelText, styles.labelNao]} onPress={() => handlePress('NÃO')}>
                 <Text style={styles.labelTextInner}>NÃO</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.labelText, styles.labelSim]} onPress={handlePress}>
+            <TouchableOpacity style={[styles.labelText, styles.labelSim]} onPress={() => handlePress('SIM')}>
                 <Text style={styles.labelTextInner}>SIM</Text>
             </TouchableOpacity>
         </View>
@@ -172,7 +202,7 @@ const styles = StyleSheet.create({
     labelSim: {
         top: '60%',
         left: '75%',
-    },
+    }
 });
 
-export default PageCinco;
+export default PageEight;

@@ -11,7 +11,8 @@ import PageSeis from "./pages/pageSeis.js";
 import PageSete from "./pages/pageSete.js";
 import PageOito from "./pages/pageOito.js";
 import ScreenFeature from "./pages/sceenFeature.js";
-import FlagPageCinco from "./pages/flagPageCinco.js";
+import PageEight from "./pages/pageEight.js";
+import PageSeven from "./pages/pageSeven.js"
 
 function HomeScreen({ navigation }) {
   navigation.navigate('PageDois')
@@ -40,7 +41,8 @@ const MyApp = () => {
         <Stack.Screen name="PageSete" component={PageSete} options={{ headerShown: false }} />
         <Stack.Screen name="PageOito" component={PageOito} options={{ headerShown: false }} />
         <Stack.Screen name="ScreenFeature" component={ScreenFeature} options={{ headerShown: false }} />
-        <Stack.Screen name="FlagPageCinco" component={FlagPageCinco} options={{ headerShown: false }} />
+        <Stack.Screen name="PageEight" component={PageEight} options={{ headerShown: false }} />
+        <Stack.Screen name="PageSeven" component={PageSeven} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
