@@ -7,7 +7,7 @@ const TelaNove = () => {
     const navigation = useNavigation(); // Hook para navegar entre as telas
 
     const handlePress = () => {
-        navigation.navigate('Home'); // Substitua 'Home' pelo nome da página de destino
+        navigation.navigate('TelaDois'); // Substitua 'Home' pelo nome da página de destino
     };
 
     return (

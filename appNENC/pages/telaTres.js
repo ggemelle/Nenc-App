@@ -10,7 +10,7 @@ const TelaTres = ({ navigation }) => {
             <Image style={styles.logo} resizeMode="cover" source={somenteLogo} />
             <Text style={styles.naPesquisaDe}>
                 Bem-vindo(a) ao jogo!{"\n\n"}
-                Marque "SIM" ou "NÃO" dentro de 6 segundos. {"\n"}
+                Marque "SIM" ou "NÃO" dentro de 3 segundos. {"\n"}
                 Se errar, ouvirá um bipe de correção. Tente acertar o máximo possível.{"\n\n"}
                 Quando estiver pronto(a) para começar, pressione "INICIAR".
             </Text>
