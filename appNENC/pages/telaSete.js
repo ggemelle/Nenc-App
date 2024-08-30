@@ -5,16 +5,16 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 const TelaSete = ({ route }) => {
   const navigation = useNavigation();
-  const { count } = route.params || 0; // Recebe o count da navegação
+  const { count, data } = route.params || { count: 0, data: [] }; // Recebe o count e os dados acumulados
 
   useFocusEffect(
     React.useCallback(() => {
       const timeoutId = setTimeout(() => {
-        navigation.navigate('TelaOito', { count }); // Passa o count de volta para TelaOito
+        navigation.navigate('TelaOito', { count, data }); // Passa o count e os dados acumulados de volta para TelaOito
       }, 1000);
 
       return () => clearTimeout(timeoutId);
-    }, [navigation, count])
+    }, [navigation, count, data])
   );
 
   return (

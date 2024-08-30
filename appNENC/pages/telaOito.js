@@ -18,9 +18,7 @@ const TelaOito = ({ navigation, route }) => {
     const [currentText, setCurrentText] = useState(null);
     const [sound, setSound] = useState();
     const [count, setCount] = useState(route.params?.count || 0);
-    const [timerActive, setTimerActive] = useState(false); 
-    const [timerId, setTimerId] = useState(null); 
-    const [data, setData] = useState(route.params?.data || []); // Recebe os dados da página anterior
+    const [data, setData] = useState(route.params?.data || []); // Recebe os dados acumulados
 
     let [fontsLoaded] = useFonts({
         Almarai_700Bold,
@@ -42,26 +40,16 @@ const TelaOito = ({ navigation, route }) => {
     }, [fontsLoaded]);
 
     useEffect(() => {
-        let timer;
         if (currentText && count < 12) {
-            setTimerActive(true); 
-            timer = setTimeout(() => {
+            const timer = setTimeout(() => {
                 playSound();
-                Alert.alert(
-                    "Tempo Esgotado",
-                    "Você não pressionou um botão a tempo.",
-                    [{ text: "OK", onPress: handlePress }]
-                );
+                handlePress(null); // Salva "null" se o tempo expirar sem resposta
             }, 2500);
-            setTimerId(timer); 
-        } else if (count >= 12) {
-            saveAndShareCSV(); 
-        }
 
-        return () => {
-            clearTimeout(timer);
-            setTimerActive(false);
-        };
+            return () => clearTimeout(timer);
+        } else if (count >= 12) {
+            saveAndShareCSV(); // Salva e compartilha o CSV ao final do ciclo
+        }
     }, [currentText, count]);
 
     async function playSound() {
@@ -78,46 +66,53 @@ const TelaOito = ({ navigation, route }) => {
     };
 
     const handlePress = (area) => {
-        if (timerActive) {
-            clearTimeout(timerId); 
-        }
-    
-        // Atualiza o estado `data` e depois executa o código restante
-        setData(prevData => {
-            const updatedData = [...prevData, { word: currentText, area }];
-            
-            if (count < 11) {
-                navigation.navigate('TelaSete', { count: count + 1, data: updatedData }); // Passar `count` e `data` atualizados para a próxima página
-            } else {
-                saveAndShareCSV(updatedData); // Passar `data` atualizado para a função de salvar e compartilhar CSV
-                navigation.navigate('TelaNove');
-            }
-    
-            setCount(prevCount => prevCount + 1);
-            return updatedData;
-        });
-    };
-    
-    const saveAndShareCSV = async (updatedData) => {
-        const csv = convertToCSV(updatedData);
-    
-        // Adiciona um timestamp ao nome do arquivo para torná-lo único
-        const timestamp = new Date().toISOString().replace(/[-:.]/g, "");
-        const fileUri = FileSystem.documentDirectory + `data_${timestamp}.csv`;
-    
-        await FileSystem.writeAsStringAsync(fileUri, csv);
-    
-        if (await Sharing.isAvailableAsync()) {
-            await Sharing.shareAsync(fileUri);
+        const newData = [...data, { word: currentText, button: area }];
+        setData(newData);
+
+        if (count < 11) {
+            navigation.navigate('TelaSete', { count: count + 1, data: newData }); // Passa os dados para TelaSete
         } else {
-            Alert.alert('Erro', 'O compartilhamento de arquivos não está disponível no seu dispositivo.');
+            saveAndShareCSV(newData); // Salva e compartilha o CSV ao final do ciclo
+            navigation.navigate('TelaNove');
+        }
+
+        setCount(prevCount => prevCount + 1);
+    };
+
+    const saveAndShareCSV = async (finalData) => {
+        const csvHeader = 'Palavra,Botao\n';
+        const csvRows = finalData.map(item => `${item.word},${item.button}`).join('\n');
+        const csvContent = csvHeader + csvRows;
+
+        const directoryUri = FileSystem.documentDirectory + 'pages';
+        const finalFileUri = directoryUri + `/final_data_${new Date().toISOString().replace(/[-:.]/g, "")}.csv`;
+
+        try {
+            const dirInfo = await FileSystem.getInfoAsync(directoryUri);
+            if (!dirInfo.exists) {
+                await FileSystem.makeDirectoryAsync(directoryUri, { intermediates: true });
+            }
+
+            await FileSystem.writeAsStringAsync(finalFileUri, csvContent);
+            console.log('CSV final salvo com sucesso:', csvContent);
+
+            shareCSVFile(finalFileUri);
+        } catch (error) {
+            console.log('Erro ao salvar e compartilhar o CSV:', error);
         }
     };
-    
-    const convertToCSV = (data) => {
-        const header = 'Palavra,Área\n';
-        const rows = data.map(item => `${item.word},${item.area}`).join('\n');
-        return header + rows;
+
+    const shareCSVFile = async (fileUri) => {
+        try {
+            const isAvailable = await Sharing.isAvailableAsync();
+            if (isAvailable) {
+                await Sharing.shareAsync(fileUri);
+            } else {
+                Alert.alert('Erro', 'O compartilhamento de arquivos não está disponível no seu dispositivo.');
+            }
+        } catch (error) {
+            console.log('Erro ao compartilhar o arquivo CSV:', error);
+        }
     };
 
     if (!fontsLoaded) {
