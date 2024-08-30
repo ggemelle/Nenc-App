@@ -3,21 +3,20 @@ import { StyleSheet, View, TouchableOpacity, Text, Image } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import logoImage from "./assets/logoNenc.png";
-import PageDois from "./pages/pageDois.js";
-import PageTres from "./pages/pageTres.js";
-import PageQuatro from "./pages/pageQuatro.js";
-import PageCinco from "./pages/pageCinco.js";
-import PageSeis from "./pages/pageSeis.js";
-import PageSete from "./pages/pageSete.js";
-import PageOito from "./pages/pageOito.js";
-import ScreenFeature from "./pages/sceenFeature.js";
-import PageEight from "./pages/pageEight.js";
-import PageSeven from "./pages/pageSeven.js"
+import TelaDois from "./pages/telaDois.js";
+import TelaTres from "./pages/telaTres.js";
+import TelaQuatro from "./pages/telaQuatro.js";
+import TelaCinco from "./pages/telaCinco.js";
+import TelaSeis from "./pages/telaSeis.js";
+import TelaSete from "./pages/telaSete.js";
+import TelaOito from "./pages/telaOito.js";
+import TelaNove from "./pages/telaNove.js";
+
 
 function HomeScreen({ navigation }) {
-  navigation.navigate('PageDois')
+  navigation.navigate('TelaDois')
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('PageDois')}>
+    <TouchableOpacity onPress={() => navigation.navigate('TelaDois')}>
       <View style={styles.planoDeFundo}>
         <Image style={styles.logoIcon} resizeMode="cover" source={logoImage} />
         <Text style={styles.text}>Clique ao centro da tela para começar a jogar</Text>
@@ -33,16 +32,14 @@ const MyApp = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="PageDois" component={PageDois} options={{ headerShown: false }} />
-        <Stack.Screen name="PageTres" component={PageTres} options={{ headerShown: false }} />
-        <Stack.Screen name="PageQuatro" component={PageQuatro} options={{ headerShown: false }} />
-        <Stack.Screen name="PageCinco" component={PageCinco} options={{ headerShown: false }} />
-        <Stack.Screen name="PageSeis" component={PageSeis} options={{ headerShown: false }} />
-        <Stack.Screen name="PageSete" component={PageSete} options={{ headerShown: false }} />
-        <Stack.Screen name="PageOito" component={PageOito} options={{ headerShown: false }} />
-        <Stack.Screen name="ScreenFeature" component={ScreenFeature} options={{ headerShown: false }} />
-        <Stack.Screen name="PageEight" component={PageEight} options={{ headerShown: false }} />
-        <Stack.Screen name="PageSeven" component={PageSeven} options={{ headerShown: false }} />
+        <Stack.Screen name="TelaDois" component={TelaDois} options={{ headerShown: false }} />
+        <Stack.Screen name="TelaTres" component={TelaTres} options={{ headerShown: false }} />
+        <Stack.Screen name="TelaQuatro" component={TelaQuatro} options={{ headerShown: false }} />
+        <Stack.Screen name="TelaCinco" component={TelaCinco} options={{ headerShown: false }} />
+        <Stack.Screen name="TelaSeis" component={TelaSeis} options={{ headerShown: false }} />
+        <Stack.Screen name="TelaSete" component={TelaSete} options={{ headerShown: false }} />
+        <Stack.Screen name="TelaOito" component={TelaOito} options={{ headerShown: false }} />
+        <Stack.Screen name="TelaNove" component={TelaNove} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

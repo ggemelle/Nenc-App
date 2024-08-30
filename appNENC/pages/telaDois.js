@@ -3,7 +3,7 @@ import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import somenteLogo from '../assets/somenteLogo.png';
 import arrowImg from '../assets/Arrow.png';
 
-const PageDois = ({ navigation }) => {
+const TelaDois = ({ navigation }) => {
 
     return (
         <View style={styles.planoDeFundo}>
@@ -14,7 +14,7 @@ const PageDois = ({ navigation }) => {
                 Quando estiver pronto(a), clique em "INICIAR".
             </Text>
 
-            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('PageQuatro')}>
+            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('TelaTres')}>
                 <Text style={styles.iniciar}>INICIAR</Text>
             </TouchableOpacity>
             <View style={styles.cliqueParaIniciar}>
@@ -84,4 +84,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default PageDois;
+export default TelaDois;

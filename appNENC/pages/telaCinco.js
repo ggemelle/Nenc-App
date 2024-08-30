@@ -5,8 +5,6 @@ import { useFonts, Almarai_700Bold, Almarai_800ExtraBold } from '@expo-google-fo
 import somenteLogo from '../assets/somenteLogo.png';
 import Elipse from '../assets/Ellipse3.png';
 import { Audio } from 'expo-av';
-import * as FileSystem from 'expo-file-system';
-import * as Sharing from 'expo-sharing';
 
 const palavras = [
     "INCONVENIÊNCIA", "AMOR", "QUALIDADE", "SENSAÇÃO", "DESCONFIANÇA",
@@ -14,13 +12,11 @@ const palavras = [
     "DESAGRADÁVEL", "DESCONFORTO", "INSEGURANÇA"
 ];
 
-const PageEight = ({ navigation, route }) => {
+const TelaCinco = ({ navigation, route }) => {
     const [currentText, setCurrentText] = useState(null);
     const [sound, setSound] = useState();
     const [count, setCount] = useState(route.params?.count || 0);
-    const [timerActive, setTimerActive] = useState(false); 
-    const [timerId, setTimerId] = useState(null); // Armazenar o ID do temporizador
-    const [data, setData] = useState([]); // Estado para armazenar os dados
+    const [timerActive, setTimerActive] = useState(false); // Estado para controlar o timer
 
     let [fontsLoaded] = useFonts({
         Almarai_700Bold,
@@ -43,8 +39,8 @@ const PageEight = ({ navigation, route }) => {
 
     useEffect(() => {
         let timer;
-        if (currentText && count < 12) {
-            setTimerActive(true); 
+        if (currentText && count < 7) {
+            setTimerActive(true); // Ativa o timer
             timer = setTimeout(() => {
                 playSound();
                 Alert.alert(
@@ -53,15 +49,13 @@ const PageEight = ({ navigation, route }) => {
                     [{ text: "OK", onPress: handlePress }]
                 );
             }, 2500);
-            setTimerId(timer); // Armazenar o ID do temporizador
-        } else if (count >= 12) {
-            saveAndShareCSV(); // Compartilhar CSV quando completar as 12 palavras
-            navigation.navigate('PageOito');
+        } else if (count >= 7) {
+            navigation.navigate('TelaSeis');
         }
 
         return () => {
-            clearTimeout(timer);
-            setTimerActive(false);
+            clearTimeout(timer); // Limpa o timer
+            setTimerActive(false); // Desativa o timer
         };
     }, [currentText, count]);
 
@@ -72,46 +66,22 @@ const PageEight = ({ navigation, route }) => {
     }
 
     const showRandomText = () => {
-        if (count < 12) {
+        if (count < 7) {
             const randomText = palavras[Math.floor(Math.random() * palavras.length)];
             setCurrentText(randomText);
             setCount(prevCount => prevCount + 1);
         }
     };
 
-    const handlePress = (area) => {
+    const handlePress = () => {
         if (timerActive) {
-            clearTimeout(timerId); // Limpar o temporizador corretamente
+            clearTimeout(); // Limpa o timer se um botão for pressionado
         }
-
-        setData(prevData => [...prevData, { word: currentText, area }]);
-
-        if (count < 12) {
-            showRandomText();
-            navigation.navigate('PageSeven');
+        if (count < 7) {
+            navigation.navigate('TelaQuatro', { count });
         } else {
-            saveAndShareCSV(); // Compartilhar CSV quando terminar
-            navigation.navigate('PageOito');
+            navigation.navigate('TelaSeis');
         }
-    };
-
-    const saveAndShareCSV = async () => {
-        const csv = convertToCSV(data);
-        const fileUri = FileSystem.documentDirectory + 'data.csv';
-
-        await FileSystem.writeAsStringAsync(fileUri, csv);
-
-        if (await Sharing.isAvailableAsync()) {
-            await Sharing.shareAsync(fileUri);
-        } else {
-            Alert.alert('Erro', 'O compartilhamento de arquivos não está disponível no seu dispositivo.');
-        }
-    };
-
-    const convertToCSV = (data) => {
-        const header = 'Palavra,Área\n';
-        const rows = data.map(item => `${item.word},${item.area}`).join('\n');
-        return header + rows;
     };
 
     if (!fontsLoaded) {
@@ -132,10 +102,10 @@ const PageEight = ({ navigation, route }) => {
             )}
             <Image style={[styles.elipse, styles.elipseLeft]} resizeMode="contain" source={Elipse} />
             <Image style={[styles.elipse, styles.elipseRight]} resizeMode="contain" source={Elipse} />
-            <TouchableOpacity style={[styles.labelText, styles.labelNao]} onPress={() => handlePress('NÃO')}>
+            <TouchableOpacity style={[styles.labelText, styles.labelNao]} onPress={handlePress}>
                 <Text style={styles.labelTextInner}>NÃO</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.labelText, styles.labelSim]} onPress={() => handlePress('SIM')}>
+            <TouchableOpacity style={[styles.labelText, styles.labelSim]} onPress={handlePress}>
                 <Text style={styles.labelTextInner}>SIM</Text>
             </TouchableOpacity>
         </View>
@@ -202,7 +172,7 @@ const styles = StyleSheet.create({
     labelSim: {
         top: '60%',
         left: '75%',
-    }
+    },
 });
 
-export default PageEight;
+export default TelaCinco;

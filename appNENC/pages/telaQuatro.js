@@ -3,14 +3,14 @@ import { StyleSheet, View, Image } from "react-native";
 import Logo from "../assets/ollaLogo.png";
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
-const PageTres = ({ route }) => {
+const TelaQuatro = ({ route }) => {
   const navigation = useNavigation();
   const { count } = route.params || 0; // Recebe o count da navegação
 
   useFocusEffect(
     React.useCallback(() => {
       const timeoutId = setTimeout(() => {
-        navigation.navigate('PageCinco', { count }); // Passa o count de volta para PageCinco
+        navigation.navigate('TelaCinco', { count }); // Passa o count de volta para TelaCinco
       }, 1000);
 
       return () => clearTimeout(timeoutId);
@@ -42,4 +42,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PageTres;
+export default TelaQuatro;

@@ -3,11 +3,11 @@ import { Image, StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import somenteLogo from '../assets/somenteLogo.png';
 
-const PageOito = () => {
+const TelaNove = () => {
     const navigation = useNavigation(); // Hook para navegar entre as telas
 
     const handlePress = () => {
-        navigation.navigate('Home'); // Substitua 'ProximaPagina' pelo nome da página de destino
+        navigation.navigate('Home'); // Substitua 'Home' pelo nome da página de destino
     };
 
     return (
@@ -45,4 +45,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default PageOito;
+export default TelaNove;

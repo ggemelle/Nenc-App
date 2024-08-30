@@ -3,23 +3,22 @@ import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import somenteLogo from '../assets/somenteLogo.png';
 import arrowImg from '../assets/Arrow.png';
 
-const PageQuatro = ({ navigation }) => {
+const TelaSeis = ({ navigation }) => {
 
     return (
         <View style={styles.planoDeFundo}>
             <Image style={styles.logo} resizeMode="cover" source={somenteLogo} />
             <Text style={styles.naPesquisaDe}>
-                Bem-vindo(a) ao jogo!{"\n\n"}
-                Marque "SIM" ou "NÃO" dentro de 6 segundos. {"\n"}
-                Se errar, ouvirá um bipe de correção. Tente acertar o máximo possível.{"\n\n"}
-                Quando estiver pronto(a) para começar, pressione "INICIAR".
+            Parabéns, você está indo muito bem!{"\n\n"}
+            Agora, vamos repetir a tarefa (Mas agora valendo hein?!).{"\n\n"}
+            Quando estiver pronto para seguir em frente, pressione CONTINUAR.
             </Text>
 
-            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('PageTres')}>
-                <Text style={styles.iniciar}>INICIAR</Text>
+            <TouchableOpacity style={styles.botaoIniciar} onPress={() => navigation.navigate('TelaSete')}>
+                <Text style={styles.iniciar}>CONTINUAR</Text>
             </TouchableOpacity>
             <View style={styles.cliqueParaIniciar}>
-                <Text style={styles.cliqueParaIniciarText}>Clique para iniciar</Text>
+                <Text style={styles.cliqueParaIniciarText}>Clique para continuar</Text>
                 <Image style={styles.arrow} resizeMode="cover" source={arrowImg} />
             </View>
         </View>);
@@ -32,7 +31,7 @@ const styles = StyleSheet.create({
         marginBottom: 0,
     },
     naPesquisaDe: {
-        fontSize: 18,
+        fontSize: 20,
         width: '100%',
         height: 180,
         color: "#000",
@@ -61,7 +60,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 10,
+        marginBottom: 20,
     },
     cliqueParaIniciarText: {
         fontSize: 14,
@@ -85,4 +84,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default PageQuatro;
+export default TelaSeis;
