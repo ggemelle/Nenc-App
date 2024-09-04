@@ -6,6 +6,11 @@
     "orientation": "landscape",
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "39f79107-f407-496b-9974-6fe1526a97c3"
+      }
+    }
   }
 }

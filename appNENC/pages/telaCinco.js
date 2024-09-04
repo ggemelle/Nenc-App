@@ -7,9 +7,8 @@ import Elipse from '../assets/Ellipse3.png';
 import { Audio } from 'expo-av';
 
 const palavras = [
-    "INCONVENIÊNCIA", "AMOR", "QUALIDADE", "SENSAÇÃO", "DESCONFIANÇA",
-    "DURABILIDADE", "PROTEÇÃO", "CONSTRANGIMENTO", "PRAZER",
-    "DESAGRADÁVEL", "DESCONFORTO", "INSEGURANÇA"
+    "É JOVEM", "POSSUI ALTA QUALIDADE", "É DIVERTIDA", "ENSINA SOBRE SEXO", "FALA DE EDUCAÇÃO SEXUAL",
+    "ESTÁ EM FESTIVAIS DE MÚSICA", "ME ENTENDE COMO SOU"
 ];
 
 const TelaCinco = ({ navigation, route }) => {

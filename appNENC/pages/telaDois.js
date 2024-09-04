@@ -11,6 +11,7 @@ const TelaDois = ({ navigation }) => {
             <Text style={styles.naPesquisaDe}>
                 Você vai avaliar uma marca em um jogo. {"\n"}
                 Relacione o atributo com "SIM" ou "NÃO" o mais rápido que puder.{"\n\n"}
+                Seja rápido!{"\n\n"}
                 Quando estiver pronto(a), clique em "INICIAR".
             </Text>
 

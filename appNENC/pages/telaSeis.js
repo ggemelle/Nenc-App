@@ -11,6 +11,7 @@ const TelaSeis = ({ navigation }) => {
             <Text style={styles.naPesquisaDe}>
             Parabéns, você está indo muito bem!{"\n\n"}
             Agora, vamos repetir a tarefa (Mas agora valendo hein?!).{"\n\n"}
+            Seja rápido!{"\n\n"}
             Quando estiver pronto para seguir em frente, pressione CONTINUAR.
             </Text>
 

@@ -9,9 +9,8 @@ import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 
 const palavras = [
-    "INCONVENIÊNCIA", "AMOR", "QUALIDADE", "SENSAÇÃO", "DESCONFIANÇA",
-    "DURABILIDADE", "PROTEÇÃO", "CONSTRANGIMENTO", "PRAZER",
-    "DESAGRADÁVEL", "DESCONFORTO", "INSEGURANÇA"
+    "É JOVEM", "POSSUI ALTA QUALIDADE", "É DIVERTIDA", "ENSINA SOBRE SEXO", "FALA DE EDUCAÇÃO SEXUAL",
+    "ESTÁ EM FESTIVAIS DE MÚSICA", "ME ENTENDE COMO SOU"
 ];
 
 const TelaOito = ({ navigation, route }) => {
